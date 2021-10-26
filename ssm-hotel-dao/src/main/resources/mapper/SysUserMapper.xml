@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bingbing.dao.SysUserMapper">
+
+    <!-- 定义UserMap -->
+    <resultMap id="BaseResultMap" type="com.bingbing.entity.SysUser">
+        <id column="id"  property="id" />
+        <result column="userName" property="userName" />
+        <result column="password" property="password" />
+        <result column="realName" property="realName" />
+        <result column="sex" property="sex" />
+        <result column="deptId" property="deptId" />
+        <result column="status" property="status" />
+        <result column="email" property="email" />
+        <result column="phone"  property="phone" />
+        <result column="userType" property="userType" />
+        <result column="hireDate"  property="hireDate" />
+        <result column="createdBy" property="createdBy" />
+        <result column="createDate" property="createDate" />
+        <result column="modifyBy" property="modifyBy" />
+        <result column="modifyDate"  property="modifyDate" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 用户角色关系配置 -->
+    <resultMap id="userRoleResultMap" type="com.bingbing.entity.SysUser" extends="BaseResultMap">
+        <!-- 一对多 -->
+        <collection property="roleList" column="id" ofType="com.bingbing.entity.Role" select="com.bingbing.dao.RoleMapper.findRoleListByUserId"/>
+    </resultMap>
+
+    <!-- 根据用户名查询用户信息的方法 -->
+    <select id="findUserByUserName" resultMap="userRoleResultMap">
+        select * from sys_user where userName = #{userName}
+    </select>
+
+
+
+</mapper>

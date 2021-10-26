@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingbing.dao.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.bingbing.entity.Permission">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="pid" column="pid"/>
+        <result property="type" column="type"/>
+        <result property="spread" column="spread"/>
+        <result property="target" column="target"/>
+        <result property="icon" column="icon"/>
+        <result property="href" column="href"/>
+        <result property="permissionCode" column="permissionCode"/>
+    </resultMap>
+
+
+    <select id="findPermissionList" resultMap="BaseResultMap">
+        select * from sys_permission
+        <where>
+            <if test="type!=null and type!=''">
+               and type = #{type}
+            </if>
+            <if test="id!=null">
+               and id = #{id} or pid = #{id}
+            </if>
+        </where>
+    </select>
+
+
+
+    <insert id="insert" parameterType="com.bingbing.entity.Permission">
+    insert into sys_permission (pid, type,
+      title, permissionCode, icon,
+      href, spread, target
+      )
+    values (#{pid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+      #{href,jdbcType=VARCHAR}, #{spread,jdbcType=INTEGER}, #{target,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+    <update id="update" parameterType="com.bingbing.entity.Permission">
+        update sys_permission
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionCode != null">
+                permissionCode = #{permissionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="href != null">
+                href = #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="spread != null">
+                spread = #{spread,jdbcType=INTEGER},
+            </if>
+            <if test="target != null">
+                target = #{target,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findPermissionByRoleId" resultType="java.lang.Integer">
+        select pid from sys_role_permission where rid = #{roleId}
+    </select>
+
+    <select id="findPermissionById" resultType="com.bingbing.entity.Permission">
+        select * from sys_permission where id in
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <select id="findPermissionListByUserId" resultType="com.bingbing.entity.Permission">
+        select distinct t1.* from sys_permission t1
+        inner join sys_role_permission t2 on t2.`pid` = t1.`id`
+        inner join sys_user_role t3 on t3.`rid` = t2.`rid`
+        where t3.`uid` = #{userId} and t1.`type` =#{type}
+    </select>
+
+</mapper>
