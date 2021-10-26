@@ -41,7 +41,7 @@ public class DeptServiceImpl implements DeptService {
         //如果添加成功
         if(count>0){
             //清空缓存
-//            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
+            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
         }
         return count;
     }
@@ -50,7 +50,7 @@ public class DeptServiceImpl implements DeptService {
         int count = deptMapper.updateDept(dept);
         if(count>0){
             //清空缓存
-//            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
+            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
         }
         return count;
     }
@@ -59,7 +59,7 @@ public class DeptServiceImpl implements DeptService {
         int count = deptMapper.deleteById(id);
         if(count>0){
             //清空缓存
-//            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
+            JedisPoolUtils.getJedis().del(RedisKey.DEPT_LIST);
         }
         return count;
     }
@@ -79,4 +79,11 @@ public class DeptServiceImpl implements DeptService {
         //返回缓存数据
         return dept_list;
     }
+
+    @Override
+    public Dept getDeptByDeptName(String deptName) {
+        return deptMapper.getDeptByDeptName(deptName);
+    }
+
+
 }

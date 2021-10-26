@@ -24,4 +24,13 @@ public class PageCongtroller {
     public String toRoleManager() {
         return "role/roleManager";
     }
+
+    /**
+     * 跳转用户管理页面
+     * @return
+     */
+    @RequestMapping("/toUserManager.html")
+    public String toUserManager() {
+        return "user/userManager";
+    }
 }

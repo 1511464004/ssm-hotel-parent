@@ -41,4 +41,6 @@ public interface DeptService {
      */
     String findDeptList();
 
+    Dept getDeptByDeptName(String deptName);
+
 }

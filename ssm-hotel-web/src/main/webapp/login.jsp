@@ -53,6 +53,18 @@
             .login-main .login-bottom {width:360px !important;}
         }
     </style>
+
+    <script type="text/javascript">
+        function check(){
+            var name = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            if (name ==""|| password ==""){
+                alert("用户名和密码不能为空");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <div class="main-body">

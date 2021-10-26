@@ -4,15 +4,19 @@ import com.bingbing.dao.SysUserMapper;
 import com.bingbing.entity.Role;
 import com.bingbing.entity.SysUser;
 import com.bingbing.service.SysUserService;
+import com.bingbing.utils.SystemConstants;
+import com.bingbing.vo.UserVo;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,5 +51,42 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public int getUserCountByDeptId(Integer deptId) {
         return userMapper.getUserCountByDeptId(deptId);
+    }
+
+    @Override
+    public int getUserCountByRoleId(Integer roleId) {
+        return userMapper.getUserCountByRoleId(roleId);
+    }
+
+    @Override
+    public List<SysUser> findUserList(UserVo userVo) {
+        return userMapper.findUserList(userVo);
+    }
+
+    @Override
+    public int insert(SysUser sysUser) {
+        sysUser.setCreateDate(new Date());
+        //使用默认密码并进行加密处理
+        sysUser.setPassword(new BCryptPasswordEncoder().encode(SystemConstants.DEFAULT_PASSWORD));
+        return userMapper.insert(sysUser);
+    }
+
+    @Override
+    public SysUser getUserByUserName(String userName) {
+        return userMapper.getUserByUserName(userName);
+    }
+
+    @Override
+    public int updateUser(SysUser sysUser) {
+        sysUser.setModifyDate(new Date());
+        return userMapper.updateUser(sysUser);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        //删除用户角色关系表的数据
+        userMapper.deleteUserRoleByUserId(id);
+        //删除用户数据
+        return userMapper.deleteById(id);
     }
 }

@@ -52,6 +52,17 @@ public class DeptController {
     @RequestMapping("/addDept")
     public String addDept(Dept dept) {
         Map<String,Object> map = new HashMap<>();
+        if (dept.getDeptName() == null || dept.getDeptName() == "") {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"添加失败，部门名称不能为空！");
+            return JSON.toJSONString(map);
+        }
+        Dept dept1 = deptService.getDeptByDeptName(dept.getDeptName());
+        if (dept1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"添加失败，这个部门名字已经存在！");
+            return JSON.toJSONString(map);
+        }
         if (deptService.insert(dept) > 0) {
             map.put(SystemConstants.SUCCESS,true);
             map.put(SystemConstants.MESSAGE,"添加成功");
@@ -70,6 +81,11 @@ public class DeptController {
     @RequestMapping("/updateDept")
     public String updateDept(Dept dept) {
         Map<String,Object> map = new HashMap<>();
+        if (dept.getDeptName() == null || dept.getDeptName() == "") {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，部门名称不能为空！");
+            return JSON.toJSONString(map);
+        }
         if (deptService.updateDept(dept) > 0) {
             map.put(SystemConstants.SUCCESS,true);
             map.put(SystemConstants.MESSAGE,"修改成功");
@@ -80,6 +96,11 @@ public class DeptController {
         return JSON.toJSONString(map);
     }
 
+    /**
+     * 删除检查
+     * @param deptId
+     * @return
+     */
     @RequestMapping("/checkDeptHasUser")
     public String checkDeptHasUser(Integer deptId) {
         Map<String,Object> map = new HashMap<>();
@@ -108,5 +129,14 @@ public class DeptController {
             map.put(SystemConstants.MESSAGE,"删除失败");
         }
         return JSON.toJSONString(map);
+    }
+
+    /**
+     * 查询部门列表
+     * @return
+     */
+    @RequestMapping("/findDeptList")
+    public String findDeptList() {
+        return deptService.findDeptList();
     }
 }

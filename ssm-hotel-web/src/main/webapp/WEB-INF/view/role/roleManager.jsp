@@ -70,8 +70,21 @@
         <%--    添加和修改的窗口区域    --%>
         <div style="display: none;padding: 5px" id="addOrUpdateWindow">
             <form class="layui-form" style="width: 90%;" id="dataFrm" lay-filter="dataFrm">
-                <%--    隐藏域保存主键-角色编号    --%>
+                <%--    隐藏域保存主键    --%>
                 <input type="hidden" name="id">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色编号</label>
+                    <div class="layui-input-block">
+                        <select id="t" name="roleCode">
+                            <option value="">请选择角色编码</option>
+                            <option value="ROLE_USER">ROLE_USER</option>
+                            <option value="ROLE_SUPER">ROLE_SUPER</option>
+                            <option value="ROLE_SYSTEM">ROLE_SYSTEM</option>
+                        </select>
+<%--                        <input type="text" name="roleCode" autocomplete="off" lay-verifty="required"--%>
+<%--                               placeholder="请输入部门编码(ROLE_)" class="layui-input">--%>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">角色名称</label>
                     <div class="layui-input-block">
@@ -133,10 +146,10 @@
                 {field: 'id', width: 120, title: '角色编号', align: 'center'},
                 {field: 'roleName', width: 120, title: '角色名称', align: 'center'},
                 {field: 'roleDesc', width: 350, title: '角色描述', align: 'center'},
-                {title: '操作', minWidth: 100, toolbar: '#currentTableBar', align: "center"}
+                {title: '操作', minWidth: 40, toolbar: '#currentTableBar', align: "center"}
             ]],
             page: true,
-            done: function (res,curr,count) {
+            done: function (res, curr, count) {
                 //判断当前页码是否大于1并且当前页的数据量为0
                 if (curr > 1 && res.data.left == 0) {
                     var pageValue = curr - 1;
@@ -193,7 +206,7 @@
                 content: $("#addOrUpdateWindow"),//引用的窗口内容
                 success: function () {
                     //提交地址
-                    url = "/admin/dept/addDept";
+                    url = "/admin/role/addRole";
                     //清空表单数据
                     $("#dataFrm")[0].reset();
                 }
@@ -204,14 +217,14 @@
         function openUpdateWindow(data) {
             mainIndex = layer.open({
                 type: 1,
-                title: '修改部门',
+                title: '修改角色',
                 area: ['800px', '400px'],
                 content: $("#addOrUpdateWindow"),//引用的窗口内容
                 success: function () {
                     //提交地址
-                    url = "/admin/dept/updateDept";
+                    url = "/admin/role/updateRole";
                     //表单数据回显
-                    form.val("dataFrm",data);
+                    form.val("dataFrm", data);
 
                 }
             });
@@ -223,43 +236,47 @@
             $.post(url, data.field, function (result) {
                 if (result.success) {
                     //提示
-                    layer.alert(result.message, {icon:1});
+                    layer.alert(result.message, {icon: 1});
                     //刷新当前表格
                     tableIns.reload();
                     //关闭当前窗口
                     layer.close(mainIndex);
                 } else {
                     //提示
-                    layer.alert(result.message, {icon:2});
+                    layer.alert(result.message, {icon: 2});
                 }
             }, "json");
             return false;
         });
 
+        /**
+         * 删除角色
+         * @param data
+         */
         function deleteById(data) {
             //发送请求查询该部门下是否存在用户信息
-            $.get("/admin/dept/checkDeptHasUser",{"deptId":data.id},function (result) {
+            $.get("/admin/role/checkRoleHasUser", {"roleId": data.id}, function (result) {
                 if (result.exist) {
-                    layer.msg(result.message,{icon:0});
+                    layer.msg(result.message, {icon: 0});
                 } else {
                     //提示用户是否确认删除
-                    layer.confirm("确认要删除该部门么？",{icon:3,title:"提示"},function (index) {
+                    layer.confirm("确认要删除 [<font color='#FE784D'>"+data.roleName+"</font>] 角色么？", {icon: 3, title: "提示"}, function (index) {
                         //发送删除的请求
-                        $.post("/admin/dept/deleteById",{"id":data.id},function (result) {
-                            if(result.success){
+                        $.post("/admin/role/deleteById", {"id": data.id}, function (result) {
+                            if (result.success) {
                                 //提示
-                                layer.alert(result.message,{icon:1});
+                                layer.alert(result.message, {icon: 1});
                                 //刷新当前数据表格
                                 tableIns.reload();
                             } else {
                                 //提示
-                                layer.alert(result.message,{icon:2});
+                                layer.alert(result.message, {icon: 2});
                             }
-                        },"json");
+                        }, "json");
                         layer.close(index);
                     });
                 }
-            },"json");
+            }, "json");
         }
 
     });

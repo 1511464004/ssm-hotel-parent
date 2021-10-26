@@ -1,6 +1,7 @@
 package com.bingbing.utils;
 
 public interface RedisKey {
+
     /**
      * 部门列表
      */

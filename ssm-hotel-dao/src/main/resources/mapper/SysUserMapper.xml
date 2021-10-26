@@ -30,11 +30,117 @@
         <collection property="roleList" column="id" ofType="com.bingbing.entity.Role" select="com.bingbing.dao.RoleMapper.findRoleListByUserId"/>
     </resultMap>
 
+    <!-- 用户部门关系配置 -->
+    <resultMap id="userDeptResultMap" type="com.bingbing.entity.SysUser" extends="BaseResultMap">
+        <!-- 一对一 -->
+        <association property="dept" javaType="com.bingbing.entity.Dept">
+            <id property="id" column="id"/>
+            <result property="deptName" column="deptName"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+
     <!-- 根据用户名查询用户信息的方法 -->
     <select id="findUserByUserName" resultMap="userRoleResultMap">
         select * from sys_user where userName = #{userName}
     </select>
 
+    <select id="findUserList" resultMap="userDeptResultMap">
+        select u.*,d.deptName from sys_user u left join sys_dept d on d.id = u.deptId
+        <where>
+            <if test="userName!=null and userName!=''">
+                and u.userName like concat('%',#{userName},'%')
+            </if>
+            <if test="realName!=null and realName!=''">
+                and u.realName like concat('%',#{realName},'%')
+            </if>
+            <if test="sex!=null">
+                and u.sex = #{sex}
+            </if>
+            <if test="deptId!=null">
+                and u.deptId = #{deptId}
+            </if>
+            <if test="status!=null">
+                and u.status = #{status}
+            </if>
+            <if test="startDate!=null">
+                <![CDATA[ and u.hireDate >= #{startDate} ]]>
+            </if>
+            <if test="endDate!=null">
+                <![CDATA[ and u.hireDate <= #{endDate} ]]>
+            </if>
+            <if test="userType!=null">
+                and u.userType = #{userType}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insert" parameterType="com.bingbing.entity.SysUser">
+        insert into sys_user (userName, password,
+          realName, sex, deptId,
+          status, email, phone,
+          userType, hireDate, createdBy,
+          createDate, remark)
+        values ( #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+          #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER},
+          #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+          #{userType,jdbcType=INTEGER}, #{hireDate,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER},
+          #{createDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+      </insert>
+
+
+    <update id="updateUser" parameterType="com.bingbing.entity.SysUser">
+        update sys_user
+        <set>
+            <if test="userName != null">
+                userName = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                realName = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="deptId != null">
+                deptId = #{deptId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                userType = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="hireDate != null">
+                hireDate = #{hireDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdBy != null">
+                createdBy = #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyBy != null">
+                modifyBy = #{modifyBy,jdbcType=INTEGER},
+            </if>
+            <if test="modifyDate != null">
+                modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
 
 </mapper>

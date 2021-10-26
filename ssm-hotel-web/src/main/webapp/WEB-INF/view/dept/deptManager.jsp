@@ -2,18 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- 获取CSRF Token --%>
-<meta name="_csrf" content="${_csrf.token}"/>
-<%-- 获取CSRF头 默认为X-CSRF-TOKEN --%>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>
-<meta charset="utf-8">
-<title>部门管理页面</title>
-<meta name="renderer" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/css/layui.css"
-      media="all">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/public.css" media="all">
+    <%-- 获取CSRF Token --%>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <%-- 获取CSRF头 默认为X-CSRF-TOKEN --%>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta charset="utf-8">
+    <title>部门管理页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/css/layui.css"
+          media="all">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/public.css" media="all">
 </head>
 <body>
 <div class="layuimini-container">
@@ -201,7 +201,7 @@
                     //提交地址
                     url = "/admin/dept/updateDept";
                     //表单数据回显
-                    form.val("dataFrm",data);
+                    form.val("dataFrm", data);
 
                 }
             });
@@ -213,43 +213,47 @@
             $.post(url, data.field, function (result) {
                 if (result.success) {
                     //提示
-                    layer.alert(result.message, {icon:1});
+                    layer.alert(result.message, {icon: 1});
                     //刷新当前表格
                     tableIns.reload();
                     //关闭当前窗口
                     layer.close(mainIndex);
                 } else {
                     //提示
-                    layer.alert(result.message, {icon:2});
+                    layer.alert(result.message, {icon: 2});
                 }
             }, "json");
             return false;
         });
 
+        /**
+         * 删除部门
+         * @param data
+         */
         function deleteById(data) {
             //发送请求查询该部门下是否存在用户信息
-            $.get("/admin/dept/checkDeptHasUser",{"deptId":data.id},function (result) {
+            $.get("/admin/dept/checkDeptHasUser", {"deptId": data.id}, function (result) {
                 if (result.exist) {
-                    layer.msg(result.message,{icon:0});
+                    layer.msg(result.message, {icon: 0});
                 } else {
                     //提示用户是否确认删除
-                    layer.confirm("确认要删除该部门么？",{icon:3,title:"提示"},function (index) {
+                    layer.confirm("确认要删除 [<font color='#FE784D'>"+data.deptName+"</font>] 部门么？", {icon: 3, title: "提示"}, function (index) {
                         //发送删除的请求
-                        $.post("/admin/dept/deleteById",{"id":data.id},function (result) {
-                            if(result.success){
+                        $.post("/admin/dept/deleteById", {"id": data.id}, function (result) {
+                            if (result.success) {
                                 //提示
-                                layer.alert(result.message,{icon:1});
+                                layer.alert(result.message, {icon: 1});
                                 //刷新当前数据表格
                                 tableIns.reload();
                             } else {
                                 //提示
-                                layer.alert(result.message,{icon:2});
+                                layer.alert(result.message, {icon: 2});
                             }
-                        },"json");
+                        }, "json");
                         layer.close(index);
                     });
                 }
-            },"json");
+            }, "json");
         }
 
     });

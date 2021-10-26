@@ -12,26 +12,26 @@
     </resultMap>
 
 
-<!--    <update id="updateRole">-->
-<!--        update sys_role-->
-<!--        <set>-->
-<!--            <if test="roleCode != null">-->
-<!--                roleCode = #{roleCode,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="roleName != null">-->
-<!--                roleName = #{roleName,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="roleDesc != null">-->
-<!--                roleDesc = #{roleDesc,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        where id = #{id,jdbcType=INTEGER}-->
-<!--    </update>-->
+    <update id="updateRole">
+        update sys_role
+        <set>
+            <if test="roleCode != null">
+                roleCode = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                roleName = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null">
+                roleDesc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
 
-<!--    <delete id="deleteById">-->
-<!--        delete from sys_role where id = #{id}-->
-<!--    </delete>-->
+    <delete id="deleteById">
+        delete from sys_role where id = #{id}
+    </delete>
 
     <!-- 根据用户ID查询用户角色列表 -->
     <select id="findRoleListByUserId" resultMap="BaseResultMap">
@@ -49,11 +49,11 @@
     </select>
 
 
-<!--    <insert id="insert">-->
-<!--        insert into sys_role (id, roleCode, roleName,-->
-<!--          roleDesc)-->
-<!--        values (#{id,jdbcType=INTEGER}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},-->
-<!--          #{roleDesc,jdbcType=VARCHAR})-->
-<!--    </insert>-->
+    <insert id="insert">
+        insert into sys_role (id, roleCode, roleName,
+          roleDesc)
+        values (#{id,jdbcType=INTEGER}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},
+          #{roleDesc,jdbcType=VARCHAR})
+    </insert>
 
 </mapper>
