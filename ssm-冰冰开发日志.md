@@ -20,23 +20,23 @@
 
 关闭IDEA，将父工程的.idea文件移出放回，发现子工程目前不再识别为子项目标识，在models中重新导入为maven，运行项目，启动成功。
 
-![image-20211024140405604](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211024140405604.png)
+![image-20211024140405604](ssm-冰冰开发日志.assets/image-20211024140405604.png)
 
 #### 3.web.xml部分标签爆红
 
 没有规范创建web.xml，facets中Deployment Desciptors（项目部署）和Web Resouce Directories（web资源目录）没有同步（文件路径不一致或者其中之一没有配置）
 
-![image-20211024143600293](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211024143600293.png)
+![image-20211024143600293](ssm-冰冰开发日志.assets/image-20211024143600293.png)
 
 #### 4.静态资源过滤
 
 导入前端页面，给静态资源路径设置，启动项目发现静态资源被过滤
 
-![image-20211024150249852](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211024150249852.png)
+![image-20211024150249852](ssm-冰冰开发日志.assets/image-20211024150249852.png)
 
 在spring-mvc中统一设置静态资源放行
 
-![image-20211024150329093](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211024150329093.png)
+![image-20211024150329093](ssm-冰冰开发日志.assets/image-20211024150329093.png)
 
 #### 5.使用security框架设置权限认证
 
@@ -115,7 +115,7 @@
 
 #### 8.资源又被过滤
 
-![image-20211024183648421](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211024183648421.png)
+![image-20211024183648421](ssm-冰冰开发日志.assets/image-20211024183648421.png)
 
 检查spring-security.xml，发现放行目录多写了个字符
 
@@ -140,7 +140,7 @@ applicationContext-dao.xml文件中没有配置连接池
 
 #### 10.localhost拒绝连接
 
-![image-20211025114426283](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211025114426283.png)
+![image-20211025114426283](ssm-冰冰开发日志.assets/image-20211025114426283.png)
 
 设置Spring Security 防止点击挟持
 
@@ -200,7 +200,7 @@ public DataGridViewResult list(DeptVo deptVo) {
 
 #### 14.弹出添加层无页面
 
-![image-20211025161459288](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211025161459288.png)
+![image-20211025161459288](ssm-冰冰开发日志.assets/image-20211025161459288.png)
 
 ![image-20211025161519443](C:\Users\15114\AppData\Roaming\Typora\typora-user-images\image-20211025161519443.png
 
@@ -224,7 +224,7 @@ public DataGridViewResult list(DeptVo deptVo) {
 
 #### 15.添加提交报错前端代码
 
-![image-20211025163939111](D:\DOWNLOAD\Typora\MD\image-20211025163939111.png)
+![image-20211025163939111](ssm-冰冰开发日志.assets/image-20211025163939111.png)
 
 修改前端代码 date,field 为 date.field
 
@@ -269,9 +269,9 @@ layui.use(['form', 'jquery', 'table', 'layer'], function () {
 
 #### 18.LayUI数据回显失效
 
-![image-20211025205819208](D:\DOWNLOAD\Typora\MD\image-20211025205819208.png)
+![image-20211025205819208](ssm-冰冰开发日志.assets/image-20211025205819208.png)
 
-是
+没有在参数中使用jquery
 
 #### 19.修改出现404，设置lay-filter,添加隐藏域
 
@@ -286,7 +286,7 @@ layui.use(['form', 'jquery', 'table', 'layer'], function () {
 
 #### 20.json数据弹窗显示不出来
 
-![image-20211025235320782](D:\DOWNLOAD\Typora\MD\image-20211025235320782.png)
+![image-20211025235320782](ssm-冰冰开发日志.assets/image-20211025235320782.png)
 
 请求结尾没解析json数据
 
@@ -296,11 +296,11 @@ $.get("/admin/dept/checkDeptHasUser",{"deptId":data.id},function (result) {},"js
 
 #### 21.删除出现404
 
-![image-20211026001820198](D:\DOWNLOAD\Typora\MD\image-20211026001820198.png)
+![image-20211026001820198](ssm-冰冰开发日志.assets/image-20211026001820198.png)
 
 没有找到问题，第二天重新打开IDEA测试运行成功，可能是target文件有问题。
 
-![image-20211026084838988](D:\DOWNLOAD\Typora\MD\image-20211026084838988.png)
+![image-20211026084838988](ssm-冰冰开发日志.assets/image-20211026084838988-16352156199561.png)
 
 #### 22.
 
