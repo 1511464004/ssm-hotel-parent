@@ -45,7 +45,7 @@
             </div>
         </fieldset>
 
-        <%--    头部工具栏区域    --%>
+        <%--    头部工具栏区域是    --%>
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
