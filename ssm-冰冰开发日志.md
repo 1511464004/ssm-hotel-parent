@@ -347,3 +347,64 @@ id传的值和后端没对应上
 
 返回json数据，在controller方法添加@ResponseBody注解。
 
+#### 28.重置密码无反应
+
+使用lay-event属性
+
+```html
+ <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="resetPwd">
+```
+
+#### 29.分配角色出现464
+
+![image-20211027100317014](ssm-冰冰开发日志.assets/image-20211027100317014-16353001981591.png)
+
+没有定义id数组
+
+```js
+//定义数组，保存选中行的ID
+                    var idArr = [];
+```
+
+#### 30.角色分配失败
+
+![image-20211027102033793](ssm-冰冰开发日志.assets/image-20211027102033793-16353012348372.png)
+
+boolean函数没有返回true
+
+```java
+boolean saveUserRole   
+return true;
+```
+
+#### 31.角色分配，前端数组没获得值
+
+![image-20211027105852660](ssm-冰冰开发日志.assets/image-20211027105852660-16353035335594.png)
+
+![image-20211027105621496](ssm-冰冰开发日志.assets/image-20211027105621496-16353033823343.png)
+
+判断条件的长度写错 length
+
+```js
+for (let i = 0; i < checkStatus.data.length; i++) {
+                            idArr.push(checkStatus.data[i].id);//角色ID
+                        }
+```
+
+#### 32.使用layui的扩展树组件
+
+```js
+ layui.extend({  dtree:"${pageContext.request.contextPath}/static/layui_ext/dtree/dtree"
+ })
+```
+
+#### 33.树形组件的js和css没找到
+
+![image-20211027134620891](ssm-冰冰开发日志.assets/image-20211027134620891-16353135815845.png)
+
+继续clear maven
+
+![image-20211027140355008](ssm-冰冰开发日志.assets/image-20211027140355008-16353146357326.png)
+
+#### 34.
+
