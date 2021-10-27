@@ -103,10 +103,10 @@
                 <i class="layui-icon layui-icon-edit"></i>编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">
                 <i class="layui-icon layui-icon-close"></i>删除</a>
-            <button class="layui-btn layui-btn-xs layui-btn-warm" lay-even="resetPwd">
+            <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="resetPwd">
                 <i class="layui-icon layui-icon-refresh"></i>重置密码
             </button>
-            <button class="layui-btn layui-btn-xs" lay-even="grantRole">
+            <button class="layui-btn layui-btn-xs" lay-event="grantRole">
                 <i class="layui-icon layui-icon-edit"></i>分配角色
             </button>
         </script>
@@ -254,13 +254,13 @@
             url: '/admin/user/list',
             toolbar: '#toolbarDemo',
             cols: [[
-                {field: 'id', width: 100, title: '用户编号', align: 'center'},
-                {field: 'userName', width: 100, title: '登录名称', align: 'center'},
+                {field: 'id', width: 90, title: '用户编号', align: 'center'},
+                {field: 'userName', width: 90, title: '登录名称', align: 'center'},
                 {field: 'realName', width: 100, title: '真实姓名', align: 'center'},
                 {field: 'sex', width: 70, title: '性别', align: 'center',templet:function (d) {
                         return d.sex == 0 ? "<font color='#00bfff'>男</font>":"<font color='#ff4500'>女</font>";
                     }},
-                {field: 'dept', width: 120, title: '所属部门', align: 'center',templet:function (d) {
+                {field: 'dept', width: 100, title: '所属部门', align: 'center',templet:function (d) {
                         return d.dept.deptName;
                     }},
                 {field: 'phone', width: 120, title: '联系方式', align: 'center'},
@@ -324,6 +324,12 @@
                     break;
                 case 'delete':
                     deleteById(obj.data);
+                    break;
+                case 'resetPwd':
+                    resetPwd(obj.data);
+                    break;
+                case 'grantRole':
+                    grantRole(obj.data);
                     break;
             }
         });
@@ -407,7 +413,99 @@
                         }, "json");
                         layer.close(index);
                     });
+        }
+        /**
+         * 重置密码
+         * @param data
+         */
+        function resetPwd(data) {
+                    //提示用户是否确认重置密码
+                    layer.confirm("确认要重置密码 [<font color='#FE784D'>" + data.realName + "</font>] 用户的密码么？", {
+                        icon: 3,
+                        title: "提示"
+                    }, function (index) {
+                        //发送重置密码的请求
+                        $.post("/admin/user/resetPwd", {"id": data.id}, function (result) {
+                            if (result.success) {
+                                //提示
+                                layer.alert(result.message, {icon: 1});
+                                //刷新当前数据表格
+                                tableIns.reload();
+                            } else {
+                                //提示
+                                layer.alert(result.message, {icon: 2});
+                            }
+                        }, "json");
+                        layer.close(index);
+                    });
+        }
+
+        /**
+         * 打开分配角色窗口
+         * @param data
+         */
+        function grantRole(data) {
+            mainIndex = layer.open({
+                type: 1,
+                title: "分配 [<font color=\'#FE784D\'>" + data.realName + "</font>] 角色",
+                area: ['800px', '500px'],
+                content: $("#selectRoleMenuDive"),//引用的窗口内容
+                btn:["<i class='layui-icon layui-icon-ok'></i>确定","<i class='layui-icon layui-icon-close'></i>取消"],
+                yes:function(index,layero) {
+                    var checkStatus = table.checkStatus('roleTable');
+                    //定义数组，保存选中行的ID
+                    var idArr = [];
+                    //判断是否有选中行
+                    if (checkStatus.data.length > 0) {
+                        //获取选中行的数据
+                        for (let i = 0; i < checkStatus.data.length; i++) {
+                            idArr.push(checkStatus.data[i].id);//角色ID
+                        }
+                        //将数组转成字符串
+                        var ids = idArr.join(",");
+
+                        //发送请求
+                        $.post("/admin/user/grantRole",{"ids":ids,"userId":data.id},function (result) {
+                            if (result.success) {
+                                layer.alert(result.message,{icon:1});
+                            } else {
+                                layer.alert(result.message,{icon:2});
+                            }
+                        },"json");
+                        //关闭分配角色窗口
+                        layer.close(mainIndex);
+
+                    } else {
+                        layer.msg("至少选中一个角色");
+                    }
+                },
+                btn2:function(index,layero) {
+                    //关闭当前窗口
+                    layer.close(index);
+                },
+                success: function () {
+                    //初始化加载角色数据
+                    initRoleData(data);
                 }
+            });
+        }
+
+        /**
+         * 初始化角色列表
+         * @param data
+         */
+        function initRoleData(data) {
+            table.render({
+                elem: '#roleTable',
+                url: '/admin/role/initRoleListByUserId?userId='+data.id,
+                cols: [[
+                    {type: 'checkbox', width: 50},
+                    {field: 'id', width: 120, title: '角色编号', align: 'center'},
+                    {field: 'roleName', width: 120, title: '角色名称', align: 'center'},
+                    {field: 'roleDesc', width: 350, title: '角色描述', align: 'center'}
+                ]]
+            });
+        }
 
     });
 </script>

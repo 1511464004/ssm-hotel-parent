@@ -114,4 +114,36 @@ public class RoleController {
         }
         return JSON.toJSONString(map);
     }
+
+    /**
+     * 初始化角色
+     * @param
+     * @return
+     */
+    @RequestMapping("/initRoleListByUserId")
+    public DataGridViewResult initRoleListByUserId(Integer userId) {
+        //调用查询所有角色列表的方法
+        List<Map<String,Object>> roleListByMap = roleService.findRoleListByMap();
+        //根据用户ID查询该用户拥有的角色列表
+        List<Integer> roleListWithUserId = roleService.findRoleListWithUserId(userId);
+        //循环遍历两个集合的数据是否出现相同的值(选中复选框)
+        for (Map<String,Object> map : roleListByMap) {
+            boolean flag = false;//默认不选中
+            //获取角色ID
+            Integer roleId = (Integer)map.get("id");
+            //内层循环遍历拥有的角色列表
+            for (Integer rid : roleListWithUserId) {
+                //比较两个集合中的角色ID是否相等
+                if (rid == roleId) {
+                    //修改状态值
+                    flag = true;
+                    break;
+                }
+            }
+            //将状态保存到map集合中
+            map.put("LAY_CHECKED",flag);
+        }
+        //返回数据
+        return new DataGridViewResult(roleListByMap);
+    }
 }

@@ -35,7 +35,27 @@ public interface SysUserService extends UserDetailsService {
 
     SysUser getUserByUserName(String userName);
 
+    /**
+     * 修改用户
+     * @param sysUser
+     * @return
+     */
     int updateUser(SysUser sysUser);
 
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
     int deleteById(Integer id);
+
+    int resetPwd(Integer id,Integer userId);
+
+    /**
+     * 保存用户角色关系
+     * @param ids
+     * @param userId
+     * @return
+     */
+    boolean saveUserRole(String ids, Integer userId);
 }

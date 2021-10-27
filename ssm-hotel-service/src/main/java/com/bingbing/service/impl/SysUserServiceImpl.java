@@ -4,13 +4,13 @@ import com.bingbing.dao.SysUserMapper;
 import com.bingbing.entity.Role;
 import com.bingbing.entity.SysUser;
 import com.bingbing.service.SysUserService;
+import com.bingbing.utils.PasswordUtil;
 import com.bingbing.utils.SystemConstants;
 import com.bingbing.vo.UserVo;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +67,9 @@ public class SysUserServiceImpl implements SysUserService {
     public int insert(SysUser sysUser) {
         sysUser.setCreateDate(new Date());
         //使用默认密码并进行加密处理
-        sysUser.setPassword(new BCryptPasswordEncoder().encode(SystemConstants.DEFAULT_PASSWORD));
+        sysUser.setPassword(PasswordUtil.encode(SystemConstants.DEFAULT_PASSWORD));
+        //默认为普通用户
+        sysUser.setUserType(2);
         return userMapper.insert(sysUser);
     }
 
@@ -88,5 +90,39 @@ public class SysUserServiceImpl implements SysUserService {
         userMapper.deleteUserRoleByUserId(id);
         //删除用户数据
         return userMapper.deleteById(id);
+    }
+
+    @Override
+    public int resetPwd(Integer id,Integer userId) {
+        //创建用户对象
+        SysUser sysUser = new SysUser();
+        sysUser.setId(id);//用户ID
+        sysUser.setModifyBy(userId);//修改人
+        sysUser.setPassword(PasswordUtil.encode(SystemConstants.DEFAULT_PASSWORD));
+        sysUser.setModifyDate(new Date());
+        return userMapper.updateUser(sysUser);
+    }
+
+    @Override
+    public boolean saveUserRole(String ids, Integer userId) {
+        try {
+            //保存用户角色关系前
+            userMapper.deleteUserRoleByUserId(userId);
+            //将字符串ID拆分为数组
+            System.out.println(ids);
+            String[] split = ids.split(",");
+            for (int i = 0; i < split.length; i++) {
+                //调用保存用户角色关系的方法
+                System.out.println(split[i]);
+            }
+            for (int i = 0; i < split.length; i++) {
+                //调用保存用户角色关系的方法
+                userMapper.saveUserRole(Integer.valueOf(split[i]),userId);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

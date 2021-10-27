@@ -70,7 +70,7 @@
                             <hr>
                         </dd>
                         <dd>
-                            <a href="/user/logout" class="login-out">退出登录</a>
+                            <a href="/admin/user/logout" class="login-out">退出登录</a>
                         </dd>
                     </dl>
                 </li>
