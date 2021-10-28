@@ -365,7 +365,6 @@
                     url = "/admin/user/updateUser";
                     //表单数据回显
                     form.val("dataFrm", data);
-
                 }
             });
         }
@@ -448,7 +447,7 @@
             mainIndex = layer.open({
                 type: 1,
                 title: "分配 [<font color=\'#FE784D\'>" + data.realName + "</font>] 角色",
-                area: ['800px', '500px'],
+                area: ['645px', '500px'],
                 content: $("#selectRoleMenuDive"),//引用的窗口内容
                 btn:["<i class='layui-icon layui-icon-ok'></i>确定","<i class='layui-icon layui-icon-close'></i>取消"],
                 yes:function(index,layero) {

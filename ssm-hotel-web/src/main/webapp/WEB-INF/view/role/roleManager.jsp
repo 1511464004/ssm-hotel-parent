@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/css/layui.css"
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/public.css" media="all">
+
+        <%--  引入dtree.css  --%>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui_ext/dtree/dtree.css">
+        <%--  引入dtree-font.css  --%>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui_ext/dtree/font/dtreefont.css">
 </head>
 <body>
 <div class="layuimini-container">
@@ -75,14 +80,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">角色编号</label>
                     <div class="layui-input-block">
-                        <select id="t" name="roleCode">
-                            <option value="">请选择角色编码</option>
-                            <option value="ROLE_USER">ROLE_USER</option>
-                            <option value="ROLE_SUPER">ROLE_SUPER</option>
-                            <option value="ROLE_SYSTEM">ROLE_SYSTEM</option>
-                        </select>
-<%--                        <input type="text" name="roleCode" autocomplete="off" lay-verifty="required"--%>
-<%--                               placeholder="请输入部门编码(ROLE_)" class="layui-input">--%>
+<%--                        <select id="t" name="roleCode">--%>
+<%--                            <option value="">请选择角色编码</option>--%>
+<%--                            <option value="ROLE_USER">ROLE_USER</option>--%>
+<%--                            <option value="ROLE_SUPER">ROLE_SUPER</option>--%>
+<%--                            <option value="ROLE_SYSTEM">ROLE_SYSTEM</option>--%>
+<%--                        </select>--%>
+                        <input type="text" name="roleCode" autocomplete="off" lay-verifty="required"
+                               placeholder="请输入部门编码(ROLE_)" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -121,12 +126,15 @@
 </div>
 <script src="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'jquery', 'laydate', 'table', 'layer'], function () {
+    layui.extend({
+        dtree: "${pageContext.request.contextPath}/static/layui_ext/dtree/dtree",
+    }).use(['form', 'jquery', 'laydate', 'table', 'layer','dtree'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table,
             laydate = layui.laydate,
-            layer = layui.layer;
+            layer = layui.layer,
+            dtree = layui.dtree;
 
 
         //获取<meta>标签中封装的CSRF Toekn
@@ -190,6 +198,9 @@
                     break;
                 case 'delete':
                     deleteById(obj.data);
+                    break;
+                case 'grantMenu':
+                    grantMenu(obj.data);
                     break;
             }
         });
@@ -277,6 +288,59 @@
                     });
                 }
             }, "json");
+        }
+
+        //打开分配菜单窗口
+        function grantMenu(data) {
+            mainIndex = layer.open({
+                type: 1,
+                title: "分配  [<font color=\'#FE784D\'>" + data.roleName + "</font>] 菜单",
+                area: ['400px', '550px'],
+                content: $("#selectRoleMenuDive"),//引用的窗口内容
+                btn:['<i class="layui-icon layui-icon-ok"></i>确认','<i class="layui-icon close"></i> 取消'],
+                yes: function(index,layero) {
+                    //获取选中复选框的值
+                    var params = dtree.getCheckbarNodesParam("roleTree");
+                    //判断是否选中
+                    if (params.length > 0) {
+                        layer.confirm("确定要分配这些菜单么？",{icon:3,title:"提示"},function (index) {
+                            //定义集合，保存选中的值
+                            var idArr = [];
+                            //循环遍历
+                            for (let i = 0; i < params.length; i++) {
+                                idArr.push(params[i].nodeId);//nodeId是选中的节点值
+                            }
+                            //将数组转换成字符串
+                            var ids = idArr.join(",");
+                            $.post("/admin/role/saveRolePermission",{"permissionIds":ids,"roleId":data.id},function (result) {
+                                if (result.success) {
+                                    layer.alert(result.message,{icon:1});
+                                } else {
+                                    layer.alert(result.message,{icon:2});
+                                }
+                            },"json");
+                            layer.close(index);
+                        });
+                    } else {
+                        layer.msg("请选择要分配的菜单");
+                    }
+                },
+                btn2:function(index,layero){
+
+                },
+                success: function () {
+                    //初始化树组件
+                    dtree.render({
+                        elem: "#roleTree",
+                        url: "/admin/role/initMenuTree?roleId="+data.id,
+                        dataStyle: "layuiStyle",
+                        dataFormat: "list",//配置data的风格为list
+                        response: {message: "msg", statusCode: 0},//修改response中返回数据的定义
+                        checkbar:true,
+                        checkbar:"all"
+                    });
+                }
+            });
         }
 
     });

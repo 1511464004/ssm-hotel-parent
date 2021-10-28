@@ -1,11 +1,14 @@
 package com.bingbing.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.bingbing.entity.Permission;
 import com.bingbing.entity.Role;
+import com.bingbing.service.PermissionService;
 import com.bingbing.service.RoleService;
 import com.bingbing.service.SysUserService;
 import com.bingbing.utils.DataGridViewResult;
 import com.bingbing.utils.SystemConstants;
+import com.bingbing.utils.TreeNode;
 import com.bingbing.vo.RoleVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,9 @@ public class RoleController {
 
     @Resource
     private SysUserService userService;
+
+    @Resource
+    private PermissionService permissionService;
 
     /**
      * 查询角色列表
@@ -146,4 +153,62 @@ public class RoleController {
         //返回数据
         return new DataGridViewResult(roleListByMap);
     }
+
+    @RequestMapping("/initMenuTree")
+    public DataGridViewResult initMenuTree(Integer roleId) {
+        //调用查询所有菜单权限列表的方法
+        List<Permission> permissionList = permissionService.findPermissionList(null);
+        //调用角色ID查询该角色已经拥有的菜单ID方法
+        List<Integer> currentRolePermissionIds = permissionService.findPermissionByRoleId(roleId);
+        //定义集合保存菜单信息
+        List<Permission> currentPermissions = new ArrayList<>();
+        //判断集合是否存在数据
+        if (currentRolePermissionIds != null && currentRolePermissionIds.size() > 0) {
+            //根据菜单ID查询该菜单的信息
+            currentPermissions = permissionService.findPermissionById(currentRolePermissionIds);
+        }
+
+        //创建菜单列表节点集合
+        List<TreeNode> treeNodes = new ArrayList<>();
+        //循环遍历权限菜单列表
+        for (Permission permission : permissionList) {
+            //定义变量，标识是否选中
+            String checkArr = "0";//0表示复选框不选中
+
+            //内层循环遍历当前角色拥有的权限菜单
+            //循环比较的原因：比较两个集合中的数据是否有相同的的，有则表示当前角色拥有这个权限
+            for (Permission currentPermission : currentPermissions) {
+                //如果ID相等，表示当前角色拥有这个菜单，有则复选框选中
+                if (permission.getId() == currentPermission.getId()) {
+                    checkArr = "1";
+                    break;
+                }
+            }
+
+            //定义变量，标识菜单是否展开
+            Boolean spread = (permission.getSpread() == null || permission.getSpread() == 1) ? true : false;
+            treeNodes.add(new TreeNode(permission.getId(),permission.getPid(),permission.getTitle(),spread,checkArr));
+        }
+        return new DataGridViewResult(treeNodes);
+    }
+
+    /**
+     * 保存角色菜单关系
+     * @param permissionIds
+     * @param roleId
+     * @return
+     */
+    @RequestMapping("/saveRolePermission")
+    public String saveRolePermission(String permissionIds,Integer roleId) {
+        Map<String,Object> map = new HashMap<>();
+        if (roleService.saveRolePermission(permissionIds,roleId)) {
+            map.put(SystemConstants.SUCCESS,true);
+            map.put(SystemConstants.MESSAGE,"菜单分配成功");
+        } else {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"菜单分配失败");
+        }
+        return JSON.toJSONString(map);
+    }
+
 }

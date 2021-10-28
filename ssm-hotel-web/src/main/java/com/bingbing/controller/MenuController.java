@@ -2,7 +2,9 @@ package com.bingbing.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bingbing.entity.Permission;
+import com.bingbing.entity.SysUser;
 import com.bingbing.service.PermissionService;
+import com.bingbing.service.SysUserService;
 import com.bingbing.utils.MenuNode;
 import com.bingbing.utils.TreeUtil;
 import com.bingbing.vo.PermissionVo;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,13 +25,17 @@ public class MenuController {
     @Resource
     private PermissionService permissionService;
 
+    @Resource
+    private SysUserService sysUserService;
+
     /**
      * 加载首页左侧菜单导航列表
      * @param permissionVo
+     *          principal
      * @return
      */
     @RequestMapping("/loadIndexMenuLeft")
-    public String loadIndexMenuLeft(PermissionVo permissionVo) {
+    public String loadIndexMenuLeft(PermissionVo permissionVo, Principal principal) {
         //创建Map集合，保存MenuInfo菜单信息
         Map<String,Object> map = new LinkedHashMap<>();
         //创建Map集合，保存homeInfo菜单信息
@@ -38,8 +45,14 @@ public class MenuController {
 
         //设置只查询菜单
         permissionVo.setType("menu");
+
+        //获取当前登录用户
+        SysUser loginUser = sysUserService.getUserByUserName(principal.getName());
+
+
         //调用查询菜单列表的方法
-        List<Permission> menuList = permissionService.findPermissionList(permissionVo);
+        //List<Permission> menuList = permissionService.findPermissionList(permissionVo);
+        List<Permission> menuList = permissionService.findPermissionListByUserId(loginUser.getId(), "menu");
         //创建集合，保存菜单关系
         List<MenuNode> menuNodeList = new ArrayList<>();
         //循环遍历集合
@@ -58,7 +71,7 @@ public class MenuController {
         }
         //保存HomeInfo信息
         homeInfo.put("title","首页");
-        homeInfo.put("href","/admin/desktop");//跳转地址
+        homeInfo.put("href","/admin/welcome.html");//跳转地址
         //logoInfo信息
         logoInfo.put("title","酒店管理系统");//logo标题
         logoInfo.put("image","/static/layui/images/logo.png");//logo图片

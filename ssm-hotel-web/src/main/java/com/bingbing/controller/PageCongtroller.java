@@ -42,4 +42,13 @@ public class PageCongtroller {
     public String toPermissionManager() {
         return "permission/permissionManager";
     }
+
+    /**
+     * 跳转欢迎页面
+     * @return
+     */
+    @RequestMapping("/welcome.html")
+    public String toWelcome() {
+        return "welcome";
+    }
 }
