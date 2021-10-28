@@ -406,5 +406,86 @@ for (let i = 0; i < checkStatus.data.length; i++) {
 
 ![image-20211027140355008](ssm-冰冰开发日志.assets/image-20211027140355008-16353146357326.png)
 
-#### 34.
+#### 34.添加dataFormat: "list",树结构消失
+
+返回的不是已经存了父子关系的节点集合
+
+```java
+return new DataGridViewResult(permissionList);
+return new DataGridViewResult(treeNodes);
+```
+
+#### 35.调整树组件的阴影宽度
+
+```css
+.dtree-theme-item-this{background-color: #d2d2d2!important;width: 180px!important;}
+.dtree-theme-item:hover{background-color: #eaeceb!important;width: 180px!important;}
+```
+
+清楚浏览器缓存
+
+![image-20211027174940161](ssm-冰冰开发日志.assets/image-20211027174940161-16353281810907.png)
+
+#### 36.父节点ID无法获取
+
+```js
+$("#pid").val(obj.param.nodeId);//将选中的节点ID赋值给父节点隐藏域
+```
+
+#### 37.图标名称获取
+
+通过.less图标文件获取的值需要补上前缀
+
+```js
+//给图标隐藏域赋值
+$("#icon").val("fa "+data.icon);
+```
+
+#### 38.父级菜单回显后，点击其他二级菜单导致父级菜单多了父级
+
+![image-20211028101142080](ssm-冰冰开发日志.assets/image-20211028101142080-16353871033501.png)
+
+```js
+//判断当前选中节点是否是一级菜单/请选择
+                    if (data.pid == 0) {
+                        menuSelectTree.reload();
+                    }
+```
+
+#### 39.角色分配菜单，页面中未找到绑定id
+
+![image-20211028110054170](ssm-冰冰开发日志.assets/image-20211028110054170-16353900550393.png)
+
+绑定错误：
+
+```js
+elem: "#menuTree",
+elem: "#roleTree",
+```
+
+#### 40.分配菜单系统错误
+
+![image-20211028134206866](ssm-冰冰开发日志.assets/image-20211028134206866-16353997285164.png)
+
+数据库的表名没对应
+
+```java
+Table 'db_ssm_hotel.sys_role_permission' doesn't exist
+```
+
+#### 41.500异常
+
+![image-20211028142408045](ssm-冰冰开发日志.assets/image-20211028142408045-16354022495345.png)
+
+使用了重复的RequestMapping注解
+
+#### 42.点击提交，跳转出错
+
+![image-20211028144357738](ssm-冰冰开发日志.assets/image-20211028144357738-16354034385416.png)
+
+没有吧选择节点的id放进数组
+
+```js
+   idArr.push(params[i].nodeId);//nodeId是选中的节点值
+```
 
