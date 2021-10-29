@@ -4,9 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-  <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
-  </welcome-file-list>
   <error-page>
     <error-code>404</error-code>
     <location>/404.jsp</location>
@@ -58,7 +55,7 @@
       <param-value>true</param-value>
     </init-param>
   </filter>
-    <!--Spring Security过滤器链，注意过滤器名称必须叫springSecurityFilterChain-->
+  <!--Spring Security过滤器链，注意过滤器名称必须叫springSecurityFilterChain-->
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

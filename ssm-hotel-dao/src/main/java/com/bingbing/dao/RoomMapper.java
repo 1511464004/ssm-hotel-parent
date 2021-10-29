@@ -1,7 +1,9 @@
 package com.bingbing.dao;
 
 import com.bingbing.entity.Room;
+import com.bingbing.entity.RoomType;
 import com.bingbing.vo.RoomVo;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public interface RoomMapper {
     int addRoom(Room room);
 
     /**
-     * 修改房间
+     * 修改房
      * @param room
      * @return
      */
@@ -50,4 +52,21 @@ public interface RoomMapper {
      */
     @Select("select * from t_room where id =#{id}")
     Room getRoomById(Integer roomId);
+
+    /**
+     * 根据房间号查询房间
+     * @param roomNum
+     * @return
+     */
+    @Select("select * from t_room where roomNum = #{roomNum}")
+    RoomType getRoomTitle(String roomNum);
+
+    /**
+     * 根据房间号-id查询房型
+     * @param roomNum
+     * @param id
+     * @return
+     */
+    @Select("select * from t_room where roomNum = #{roomNum} and id != #{id}")
+    RoomType getRoomTitleId(@Param("roomNum") String roomNum, @Param("id") Integer id);
 }

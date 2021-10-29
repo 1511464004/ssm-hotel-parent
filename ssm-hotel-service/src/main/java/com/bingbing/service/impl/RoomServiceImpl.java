@@ -2,6 +2,7 @@ package com.bingbing.service.impl;
 
 import com.bingbing.dao.RoomMapper;
 import com.bingbing.entity.Room;
+import com.bingbing.entity.RoomType;
 import com.bingbing.service.RoomService;
 import com.bingbing.vo.RoomVo;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,15 @@ public class RoomServiceImpl implements RoomService {
 
     public Room findById(Integer id) {
         return roomMapper.findById(id);
+    }
+
+    @Override
+    public RoomType getRoomTitle(String roomNum) {
+        return roomMapper.getRoomTitle(roomNum);
+    }
+
+    @Override
+    public RoomType getRoomTitleId(String roomNum, Integer id) {
+        return roomMapper.getRoomTitleId(roomNum,id);
     }
 }

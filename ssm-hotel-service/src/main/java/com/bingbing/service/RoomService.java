@@ -1,6 +1,7 @@
 package com.bingbing.service;
 
 import com.bingbing.entity.Room;
+import com.bingbing.entity.RoomType;
 import com.bingbing.vo.RoomVo;
 
 import java.util.List;
@@ -40,4 +41,19 @@ public interface RoomService {
      * @return
      */
     Room findById(Integer id);
+
+    /**
+     * 根据房间名称查询房间
+     * @param title
+     * @return
+     */
+    RoomType getRoomTitle(String title);
+
+    /**
+     * 根据房型名称-id查询房型
+     * @param roomNum
+     * @param id
+     * @return
+     */
+    RoomType getRoomTitleId(String roomNum,Integer id);
 }

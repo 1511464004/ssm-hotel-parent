@@ -8,7 +8,7 @@ http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 设置静态资源匿名访问 -->
-    <security:http pattern="/static/**" security="none"/>
+    <security:http pattern="/statics/**" security="none"/>
     <!-- 执行失败后跳转的地址 -->
     <security:http pattern="/failure.jsp" security="none"/>
     <security:http pattern="/403.jsp" security="none"/>
@@ -21,9 +21,9 @@ http://www.springframework.org/schema/security/spring-security.xsd">
         <!-- 定义过滤规则 -->
         <!--  pattern:表示对哪些url进行权限控制-->
         <!--  access:表示在请求对应的URLl时需要什么角色或权限-->
-        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>
+<!--        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>-->
         <!-- 设置拦截路径 -->
-<!--        <security:intercept-url pattern="/room/detail/**" access="isAuthenticated()"/>-->
+        <!--        <security:intercept-url pattern="/room/detail/**" access="isAuthenticated()"/>-->
         <!-- 配置自定义登录认证页面 -->
         <!--配置自定义登录认证页面-->
         <!-- login-page属性:配置自定义登录页面的地址-->

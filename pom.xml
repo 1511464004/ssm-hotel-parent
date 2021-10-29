@@ -14,8 +14,9 @@
         <module>ssm-hotel-entity</module>
         <module>ssm-hotel-dao</module>
         <module>ssm-hotel-service</module>
-        <module>ssm-hotel-web</module>
+        <module>ssm-hotel-manager</module>
         <module>ssm-hotl-utils</module>
+        <module>ssm-hotel-web</module>
     </modules>
 
     <properties>

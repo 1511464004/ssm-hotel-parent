@@ -1,145 +1,143 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="en" class="fly-html-layui fly-html-store">
 <head>
-    <meta charset="UTF-8">
-    <title>酒店后台管理-登陆</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="${pageContext.request.contextPath}/static/layui/images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/css/layui.css" media="all">
-    <style>
-        .main-body {top:50%;left:50%;position:absolute;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);overflow:hidden;}
-        .login-main .login-bottom .center .item input {display:inline-block;width:227px;height:22px;padding:0;position:absolute;border:0;outline:0;font-size:14px;letter-spacing:0;}
-        .login-main .login-bottom .center .item .icon-1 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat 1px 0;}
-        .login-main .login-bottom .center .item .icon-2 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat -54px 0;}
-        .login-main .login-bottom .center .item .icon-3 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat -106px 0;}
-        .login-main .login-bottom .center .item .icon-4 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat 0 -43px;position:absolute;right:-10px;cursor:pointer;}
-        .login-main .login-bottom .center .item .icon-5 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat -55px -43px;}
-        .login-main .login-bottom .center .item .icon-6 {background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat 0 -93px;position:absolute;right:-10px;margin-top:8px;cursor:pointer;}
-        .login-main .login-bottom .tip .icon-nocheck {display:inline-block;width:10px;height:10px;border-radius:2px;border:solid 1px #9abcda;position:relative;top:2px;margin:1px 8px 1px 1px;cursor:pointer;}
-        .login-main .login-bottom .tip .icon-check {margin:0 7px 0 0;width:14px;height:14px;border:none;background:url(${pageContext.request.contextPath}/static/layui/images/icon-login.png) no-repeat -111px -48px;}
-        .login-main .login-bottom .center .item .icon {display:inline-block;width:33px;height:22px;}
-        .login-main .login-bottom .center .item {width:288px;height:35px;border-bottom:1px solid #dae1e6;margin-bottom:35px;}
-        .login-main {width:428px;position:relative;float:left;}
-        .login-main .login-top {height:117px;background-color:#148be4;border-radius:12px 12px 0 0;font-family:SourceHanSansCN-Regular;font-size:30px;font-weight:400;font-stretch:normal;letter-spacing:0;color:#fff;line-height:117px;text-align:center;overflow:hidden;-webkit-transform:rotate(0);-moz-transform:rotate(0);-ms-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0);}
-        .login-main .login-top .bg1 {display:inline-block;width:74px;height:74px;background:#fff;opacity:.1;border-radius:0 74px 0 0;position:absolute;left:0;top:43px;}
-        .login-main .login-top .bg2 {display:inline-block;width:94px;height:94px;background:#fff;opacity:.1;border-radius:50%;position:absolute;right:-16px;top:-16px;}
-        .login-main .login-bottom {width:428px;background:#fff;border-radius:0 0 12px 12px;padding-bottom:53px;}
-        .login-main .login-bottom .center {width:288px;margin:0 auto;padding-top:40px;padding-bottom:15px;position:relative;}
-        .login-main .login-bottom .tip {clear:both;height:16px;line-height:16px;width:288px;margin:0 auto;}
-        body {background:url(${pageContext.request.contextPath}/static/layui/images/loginbg.png) 0% 0% / cover no-repeat;position:static;font-size:12px;}
-        input::-webkit-input-placeholder {color:#a6aebf;}
-        input::-moz-placeholder {/* Mozilla Firefox 19+ */            color:#a6aebf;}
-        input:-moz-placeholder {/* Mozilla Firefox 4 to 18 */            color:#a6aebf;}
-        input:-ms-input-placeholder {/* Internet Explorer 10-11 */            color:#a6aebf;}
-        input:-webkit-autofill {/* 取消Chrome记住密码的背景颜色 */            -webkit-box-shadow:0 0 0 1000px white inset !important;}
-        html {height:100%;}
-        .login-main .login-bottom .tip {clear:both;height:16px;line-height:16px;width:288px;margin:0 auto;}
-        .login-main .login-bottom .tip .login-tip {font-family:MicrosoftYaHei;font-size:12px;font-weight:400;font-stretch:normal;letter-spacing:0;color:#9abcda;cursor:pointer;}
-        .login-main .login-bottom .tip .forget-password {font-stretch:normal;letter-spacing:0;color:#1391ff;text-decoration:none;position:absolute;right:62px;}
-        .login-main .login-bottom .login-btn {width:288px;height:40px;background-color:#1E9FFF;border-radius:16px;margin:24px auto 0;text-align:center;line-height:40px;color:#fff;font-size:14px;letter-spacing:0;cursor:pointer;border:none;}
-        .login-main .login-bottom .center .item .validateImg {position:absolute;right:1px;cursor:pointer;height:36px;border:1px solid #e6e6e6;}
-        .footer {left:0;bottom:0;color:#fff;width:100%;position:absolute;text-align:center;line-height:30px;padding-bottom:10px;text-shadow:#000 0.1em 0.1em 0.1em;font-size:14px;}
-        .padding-5 {padding:5px !important;}
-        .footer a,.footer span {color:#fff;}
-        @media screen and (max-width:428px) {.login-main {width:360px !important;}
-            .login-main .login-top {width:360px !important;}
-            .login-main .login-bottom {width:360px !important;}
-        }
-    </style>
-
-    <script type="text/javascript">
-        function check(){
-            var name = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            if (name ==""|| password ==""){
-                alert("用户名和密码不能为空");
-                return false;
-            }
-            return true;
-        }
-    </script>
-</head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/layui/dist/css/layui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/global.css" charset="utf-8">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/global(1).css" charset="utf-8">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/store.css" charset="utf-8">
+    <link rel="icon" href="${pageContext.request.contextPath}/statics/images/favicon.ico">
+    <title>酒店管理系统</title>
 <body>
-<div class="main-body">
-    <div class="login-main">
-        <div class="login-top">
-            <span>酒店管理系统后台登录</span>
-            <span class="bg1"></span>
-            <span class="bg2"></span>
-        </div>
-        <form class="layui-form login-bottom" action="/login" method="post">
-            <%--携带token提交--%>
-            <security:csrfInput/>
-            <div class="center">
-                <div class="item">
-                    <span class="icon icon-2"></span>
-                    <input type="text" name="username" lay-verify="required" lay-reqText="请输入登录账号"  placeholder="请输入登录账号" maxlength="24"/>
-                </div>
+<!-- 顶部start -->
+<div class="layui-header header header-store" style="background-color: #393D49;">
+    <div class="layui-container">
+        <a class="logo" href="index.html">
+            <img src="${pageContext.request.contextPath}/statics/images/logo.png" alt="layui">
+        </a>
+        <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
+        <ul class="layui-nav" id="layui-nav-userinfo">
+            <li data-id="index" class="layui-nav-item layui-hide-xs">
+                <a class="fly-case-active" data-type="toTopNav" href="/">首页</a>
+            </li>
+            <li data-id="room" class="layui-nav-item layui-hide-xs">
+                <a class="fly-case-active" data-type="toTopNav"  href="/room/list.html">房间</a>
+            </li>
+            <li data-id="login" class="layui-nav-item layui-hide-xs layui-this">
+                <a class="fly-case-active" data-type="toTopNav" href="/login.jsp">登入</a>
+            </li>
+            <li data-id="register" class="layui-nav-item layui-hide-xs ">
+                <a class="fly-case-active" data-type="toTopNav" href="/register.jsp">注册</a>
+            </li>
+            <span class="layui-nav-bar" style="left: 560px; top: 55px; width: 0px; opacity: 0;"></span>
+        </ul>
+    </div>
+</div>
+<!-- 顶部end -->
 
-                <div class="item">
-                    <span class="icon icon-3"></span>
-                    <input type="password" name="password" lay-verify="required" lay-reqText="请输入密码"   placeholder="请输入密码" maxlength="20">
-                    <span class="bind-password icon icon-4"></span>
+<!-- 中间区域开始 -->
+<div class="shop-nav shop-index">
+    <!--搜索 start-->
+    <div id="LAY-topbar" style="height: auto;">
+        <form class="layui-form layuimini-form">
+            <div class="input-search">
+                <div id="searchRoom"><input type="text" placeholder="搜索你需要的房间" name="keywords" id="searchKeywords"
+                                            autocomplete="off" value="">
+                    <button class="layui-btn layui-btn-shop" lay-submit="" lay-filter="searchHotelRoom" style="background-color: #009688"><i
+                            class="layui-icon layui-icon-search"></i></button>
                 </div>
-
-                <div id="validatePanel" class="item" style="width: 137px;">
-                    <input type="text" name="captcha" placeholder="请输入验证码" maxlength="4">
-                    <img id="refreshCaptcha" class="validateImg"  src="${pageContext.request.contextPath}/static/layui/images/captcha.jpg" >
-                </div>
-
-            </div>
-            <div class="tip">
-                <input type="checkbox" name="remember-me" value="true" lay-skin="primary"></span>
-                <span class="login-tip">保持登录</span>
-                <a href="javascript:" class="forget-password">忘记密码？</a>
-            </div>
-            <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
-                <button class="login-btn">立即登录</button>
+                <div class="layui-container layui-hide-xs"><a href="#" class="topbar-logo"> <img
+                        src="${pageContext.request.contextPath}/statics/images/logo-1.png" alt="layui"> </a></div>
             </div>
         </form>
     </div>
+    <!--搜索 end-->
 </div>
-<div class="footer">
-    ©版权所有 2021-10 冰冰音唇
+<!-- 中间区域结束 -->
+
+<!-- 登录start -->
+<div class="layui-container shopdata">
+    <div class="layui-card shopdata-intro">
+
+        <div class=" login-content">
+            <!--登录 start-->
+            <div class="login-bg">
+                <div class="login-cont w1200">
+                    <div class="form-box">
+                        <form class="layui-form" action="/login" method="post">
+                            <%-- 携带Token --%>
+                            <security:csrfInput/>
+                            <legend>用户登录</legend>
+                            <div class="layui-form-item">
+                                <div class="layui-inline iphone">
+                                    <div class="layui-input-inline">
+                                        <i class="layui-icon layui-icon-user iphone-icon"></i>
+                                        <input type="text" name="loginName" id="loginName" lay-verify="required" placeholder="请输入登录用户名" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline iphone">
+                                    <div class="layui-input-inline">
+                                        <i class="layui-icon layui-icon-password iphone-icon"></i>
+                                        <input id="pnum" type="password" name="password" lay-verify="required" placeholder="请输入登录密码" autocomplete="off" class="layui-input">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item login-btn">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn" style="background-color: #009688" >登录</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--登录 end-->
+
+        </div>
+    </div>
+
 </div>
-<script src="${pageContext.request.contextPath}/static/layui/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-<script type="text/javascript">
+<!-- 登录end -->
 
-    layui.use(['layer', 'jquery', 'form'], function () {
-        var layer = layui.layer,
-            $ = layui.jquery,
-            form = layui.form;
+<!-- 底部 -->
+<div class="fly-footer">
+    <p><a href="#">酒店系统</a> 2021 © 冰冰</p>
+
+</div>
 
 
-        // 登录过期的时候，跳出ifram框架
-        if (top.location != self.location) top.location = self.location;
+<!-- 脚本开始 -->
+<script src="${pageContext.request.contextPath}/statics/layui/dist/layui.js"></script>
+<script>
+    layui.use(["form","element","carousel"], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            carousel = layui.carousel,
+            $ = layui.$;
 
-        $('.bind-password').on('click', function () {
-            if ($(this).hasClass('icon-5')) {
-                $(this).removeClass('icon-5');
-                $("input[name='password']").attr('type', 'password');
-            } else {
-                $(this).addClass('icon-5');
-                $("input[name='password']").attr('type', 'text');
-            }
+        //渲染轮播图
+        carousel.render({
+            elem: '#LAY-store-banner'
+            ,width: '100%' //设置容器宽度
+            ,height: '460' //设置容器高度
+            ,arrow: 'always' //始终显示箭头
         });
 
-        $('.icon-nocheck').on('click', function () {
-            if ($(this).hasClass('icon-check')) {
-                $(this).removeClass('icon-check');
-            } else {
-                $(this).addClass('icon-check');
-            }
-        });
 
     });
 </script>
+<!-- 脚本结束 -->
+<ul class="layui-fixbar">
+    <li class="layui-icon layui-fixbar-top" lay-type="top" style=""></li>
+</ul>
+<div class="layui-layer-move"></div>
+
 </body>
 </html>
