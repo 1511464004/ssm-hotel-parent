@@ -125,4 +125,9 @@ public class SysUserServiceImpl implements SysUserService {
         }
         return false;
     }
+
+    @Override
+    public SysUser getUserUserNameId(String userName, Integer id) {
+        return userMapper.getUserUserNameId(userName,id);
+    }
 }

@@ -81,5 +81,21 @@ public interface RoleMapper {
     @Insert("insert into sys_role_permission(rid,pid) values(#{roleId},#{pid})")
     int saveRolePermission(@Param("pid") Integer permissionId, @Param("roleId") Integer roleId);
 
+    /**
+     * 根据角色名查询角色信息
+     * @param userName
+     * @return
+     */
+    @Select("select * from sys_role where roleName = #{roleName}")
+    Role getRoleName(String userName);
+
+    /**
+     * 根据角色名-id查询角色信息
+     * @param roleName
+     * @return
+     */
+    @Select("select * from sys_role where roleName = #{roleName} and id != #{id}")
+    Role getRoleNameId(@Param("roleName")String roleName,@Param("id") Integer id);
+
 
 }

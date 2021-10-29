@@ -7,7 +7,7 @@
     <%-- 获取CSRF头 默认为X-CSRF-TOKEN --%>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta charset="utf-8">
-    <title>用户管理页面</title>
+    <title>菜单管理页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -52,7 +52,7 @@
                 <%--     行工具栏       --%>
                 <script type="text/html" id="currentTableBar">
                     <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">
-                        <i class="layui-icon layui-icon-add-1"></i>编辑</a>
+                        <i class="layui-icon layui-icon-edit-1"></i>编辑</a>
                     <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">
                         <i class="layui-icon layui-icon-close"></i>删除</a>
                 </script>

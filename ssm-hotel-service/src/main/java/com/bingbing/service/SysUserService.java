@@ -58,4 +58,12 @@ public interface SysUserService extends UserDetailsService {
      * @return
      */
     boolean saveUserRole(String ids, Integer userId);
+
+    /**
+     * 根据用户名-id查询用户信息
+     * @param userName
+     * @return
+     */
+    SysUser getUserUserNameId(String userName, Integer id);
+
 }

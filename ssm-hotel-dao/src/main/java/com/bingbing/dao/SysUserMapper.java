@@ -86,4 +86,12 @@ public interface SysUserMapper {
      */
     @Select("select * from sys_user where userName = #{userName}")
     SysUser getUserByUserName(String userName);
+
+    /**
+     * 根据用户名-id查询用户信息
+     * @param userName
+     * @return
+     */
+    @Select("select * from sys_user where userName = #{userName} and id != #{id}")
+    SysUser getUserUserNameId(@Param("userName")String userName,@Param("id") Integer id);
 }

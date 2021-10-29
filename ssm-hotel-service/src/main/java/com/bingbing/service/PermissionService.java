@@ -22,11 +22,26 @@ public interface PermissionService {
     int insert(Permission record);
 
     /**
+     * 根据菜单查询菜单信息
+     * @param title
+     * @return
+     */
+    Permission getTitle(String title);
+
+    /**
+     * 根据菜单-id查询菜单信息
+     * @param title
+     * @return
+     */
+    Permission getTitleId(String title,Integer id);
+
+    /**
      * 修改菜单
      * @param record
      * @return
      */
     int update(Permission record);
+
 
     /**
      * 检查菜单下是否有子菜单

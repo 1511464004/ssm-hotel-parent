@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingbing.dao.RoomMapper">
+
+    <!-- 基础、公共字段配置 -->
+    <resultMap id="BaseResultMap" type="com.bingbing.entity.Room">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="photo" jdbcType="VARCHAR" property="photo" />
+        <result column="roomNum" jdbcType="VARCHAR" property="roomNum" />
+        <result column="roomTypeId" jdbcType="INTEGER" property="roomTypeId" />
+        <result column="floorId" jdbcType="INTEGER" property="floorId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="roomRequirement" jdbcType="VARCHAR" property="roomRequirement" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <!-- 配置关联关系 -->
+    <resultMap id="roomResultMap" type="com.bingbing.entity.Room" extends="BaseResultMap">
+        <!-- 房型 -->
+        <association property="roomType" javaType="com.bingbing.entity.RoomType">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+            <result column="photo" jdbcType="VARCHAR" property="photo" />
+            <result column="price" jdbcType="DECIMAL" property="price" />
+            <result column="roomNumber" property="roomNum" />
+        </association>
+        <!-- 楼层 -->
+        <association property="floor" javaType="com.bingbing.entity.Floor">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="floorName" jdbcType="VARCHAR" property="floorName" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+        </association>
+    </resultMap>
+    <insert id="addRoom">
+        insert into t_room (title, photo,
+          roomNum, roomTypeId, floorId,
+          status, roomRequirement, remark,
+          roomDesc)
+        values (#{title,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
+          #{roomNum,jdbcType=VARCHAR}, #{roomTypeId,jdbcType=INTEGER}, #{floorId,jdbcType=INTEGER},
+          #{status,jdbcType=INTEGER}, #{roomRequirement,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+          #{roomDesc,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <update id="updateRoom">
+        update t_room
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="roomNum != null">
+                roomNum = #{roomNum,jdbcType=VARCHAR},
+            </if>
+            <if test="roomTypeId != null">
+                roomTypeId = #{roomTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="floorId != null">
+                floorId = #{floorId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="roomRequirement != null">
+                roomRequirement = #{roomRequirement,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="roomDesc != null">
+                roomDesc = #{roomDesc,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteById">
+        delete from t_room where id = #{id}
+    </delete>
+
+
+    <select id="findRoomList" resultMap="roomResultMap">
+        select t1.*,t2.`typeName`,t2.price,t3.`floorName`,t2.roomNum as roomNumber from t_room t1
+        inner join t_room_type t2 on t2.id = t1.`roomTypeId`
+        inner join t_floor t3 on t3.id = t1.`floorId`
+        <where>
+            <if test="roomNum!=null and roomNum!=''">
+                and t1.roomNum like concat('%',#{roomNum},'%')
+            </if>
+            <if test="title!=null and title!=''">
+                and t1.title like concat('%',#{title},'%')
+            </if>
+            <if test="floorId!=null">
+                and t1.floorId = #{floorId}
+            </if>
+            <if test="roomTypeId!=null">
+                and t1.roomTypeId = #{roomTypeId}
+            </if>
+            <if test="status!=null">
+                and t1.status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultMap="roomResultMap">
+        select t1.*,t2.`typeName`,t2.price,t3.`floorName`,t2.roomNum as roomNumber from t_room t1
+        inner join t_room_type t2 on t2.id = t1.`roomTypeId`
+        inner join t_floor t3 on t3.id = t1.`floorId`
+        where t1.id = #{id}
+    </select>
+
+</mapper>

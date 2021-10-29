@@ -19,7 +19,8 @@ import java.util.List;
 
 @Service
 @Transactional
-public class DeptServiceImpl implements DeptService {
+public class DeptServiceImpl implements DeptService
+{
 
     @Resource
     private DeptMapper deptMapper;
@@ -83,6 +84,11 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public Dept getDeptByDeptName(String deptName) {
         return deptMapper.getDeptByDeptName(deptName);
+    }
+
+    @Override
+    public Dept getDeptNameId(String deptName, Integer id) {
+        return deptMapper.getDeptNameId(deptName,id);
     }
 
 

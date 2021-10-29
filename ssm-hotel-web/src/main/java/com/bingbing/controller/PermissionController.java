@@ -106,7 +106,13 @@ public class PermissionController {
         Map<String,Object> map = new HashMap<>();
         if (permission.getTitle() == null || permission.getTitle() == "") {
             map.put(SystemConstants.SUCCESS,false);
-            map.put(SystemConstants.MESSAGE,"添加失败，菜单名称不能为空！");
+            map.put(SystemConstants.MESSAGE,"修改失败，菜单名称不能为空！");
+            return JSON.toJSONString(map);
+        }
+        Permission permission1 = permissionService.getTitleId(permission.getTitle(),permission.getId());
+        if (permission1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，这个菜单名称已经存在！");
             return JSON.toJSONString(map);
         }
         if (permissionService.update(permission) > 0) {

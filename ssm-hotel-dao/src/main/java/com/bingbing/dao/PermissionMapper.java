@@ -39,6 +39,22 @@ public interface PermissionMapper {
     @Select("select count(1) from sys_permission where pid = #{id}")
     int getPermissionCountById(Integer id);
 
+    /**
+     * 根据菜单查询菜单信息
+     * @param title
+     * @return
+     */
+    @Select("select * from sys_permission where title = #{title}")
+    Permission getTitle(String title);
+
+    /**
+     * 根据菜单-id查询菜单信息
+     * @param title
+     * @return
+     */
+    @Select("select * from sys_permission where title = #{title} and id != #{id}")
+    Permission getTitleId(@Param("title") String title,@Param("id") Integer id);
+
 
     /**
      * 删除菜单

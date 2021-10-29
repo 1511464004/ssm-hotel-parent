@@ -43,4 +43,12 @@ public interface DeptService {
 
     Dept getDeptByDeptName(String deptName);
 
+    /**
+     * 根据部门名称-id查询部门
+     * @param deptName
+     * @param id
+     * @return
+     */
+    Dept getDeptNameId(String deptName,Integer id);
+
 }

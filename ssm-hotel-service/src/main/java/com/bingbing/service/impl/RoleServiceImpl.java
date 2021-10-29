@@ -66,10 +66,9 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.deleteRolePermissionByRoleId(roleId);
             //将权限菜单字符串拆分成数组
             String[] ids = permissionIds.split(",");
-            int count = 0;
             //循环添加角色菜单关系
             for (int i = 0; i < ids.length; i++) {
-               count =  roleMapper.saveRolePermission(Integer.valueOf(ids[i]),roleId);
+               roleMapper.saveRolePermission(Integer.valueOf(ids[i]),roleId);
             }
             return true;
         } catch (NumberFormatException e) {
@@ -77,5 +76,15 @@ public class RoleServiceImpl implements RoleService {
         }
 
         return false;
+    }
+
+    @Override
+    public Role getRoleName(String roleName) {
+        return roleMapper.getRoleName(roleName);
+    }
+
+    @Override
+    public Role getRoleNameId(String roleName, Integer id) {
+        return roleMapper.getRoleNameId(roleName,id);
     }
 }

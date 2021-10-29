@@ -51,4 +51,31 @@ public class PageCongtroller {
     public String toWelcome() {
         return "welcome";
     }
+
+    /**
+     * 跳转楼层管理页面
+     * @return
+     */
+    @RequestMapping("/toFloorManager.html")
+    public String toFloorManager() {
+        return "floor/floorManager";
+    }
+
+    /**
+     * 跳转房型管理页面
+     * @return
+     */
+    @RequestMapping("/toRoomTypeManager.html")
+    public String toRoomTypeManager() {
+        return "roomType/roomTypeManager";
+    }
+
+    /**
+     * 跳转房间管理页面
+     * @return
+     */
+    @RequestMapping("/toRoomManager.html")
+    public String toRoomManager() {
+        return "room/roomManager";
+    }
 }

@@ -60,7 +60,7 @@ public class DeptController {
         Dept dept1 = deptService.getDeptByDeptName(dept.getDeptName());
         if (dept1 != null) {
             map.put(SystemConstants.SUCCESS,false);
-            map.put(SystemConstants.MESSAGE,"添加失败，这个部门名字已经存在！");
+            map.put(SystemConstants.MESSAGE,"添加失败，这个部门名称已经存在！");
             return JSON.toJSONString(map);
         }
         if (deptService.insert(dept) > 0) {
@@ -84,6 +84,12 @@ public class DeptController {
         if (dept.getDeptName() == null || dept.getDeptName() == "") {
             map.put(SystemConstants.SUCCESS,false);
             map.put(SystemConstants.MESSAGE,"修改失败，部门名称不能为空！");
+            return JSON.toJSONString(map);
+        }
+        Dept dept1 = deptService.getDeptNameId(dept.getDeptName(),dept.getId());
+        if (dept1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，这个部门名称已经存在！");
             return JSON.toJSONString(map);
         }
         if (deptService.updateDept(dept) > 0) {

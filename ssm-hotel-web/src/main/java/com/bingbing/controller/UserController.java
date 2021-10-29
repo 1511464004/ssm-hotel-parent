@@ -111,6 +111,12 @@ public class UserController {
             map.put(SystemConstants.MESSAGE,"修改失败，用户名字不能为空！");
             return JSON.toJSONString(map);
         }
+        SysUser sysUser1 = userService.getUserUserNameId(sysUser.getUserName(),sysUser.getId());
+        if (sysUser1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，这个用户名字已经存在！");
+            return JSON.toJSONString(map);
+        }
         if (userService.updateUser(sysUser) > 0) {
             map.put(SystemConstants.SUCCESS,true);
             map.put(SystemConstants.MESSAGE,"修改成功");

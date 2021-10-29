@@ -59,6 +59,17 @@ public class RoleController {
     @RequestMapping("/addRole")
     public String addRole(Role role) {
         Map<String,Object> map = new HashMap<>();
+        if (role.getRoleName() == null || role.getRoleName() == "") {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"添加失败，角色名称不能为空！");
+            return JSON.toJSONString(map);
+        }
+        Role role1 = roleService.getRoleName(role.getRoleName());
+        if (role1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"添加失败，这个角色名称已经存在！");
+            return JSON.toJSONString(map);
+        }
         if (roleService.insert(role) > 0) {
             map.put(SystemConstants.SUCCESS,true);
             map.put(SystemConstants.MESSAGE,"添加成功");
@@ -77,6 +88,17 @@ public class RoleController {
     @RequestMapping("/updateRole")
     public String updateDept(Role role) {
         Map<String,Object> map = new HashMap<>();
+        if (role.getRoleName() == null || role.getRoleName() == "") {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，角色名称不能为空！");
+            return JSON.toJSONString(map);
+        }
+        Role role1 = roleService.getRoleNameId(role.getRoleName(),role.getId());
+        if (role1 != null) {
+            map.put(SystemConstants.SUCCESS,false);
+            map.put(SystemConstants.MESSAGE,"修改失败，这个角色名称已经存在！");
+            return JSON.toJSONString(map);
+        }
         if (roleService.updateRole(role) > 0) {
             map.put(SystemConstants.SUCCESS,true);
             map.put(SystemConstants.MESSAGE,"修改成功");

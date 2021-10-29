@@ -56,4 +56,18 @@ public interface RoleService {
      * @return
      */
     boolean saveRolePermission(String permissionIds, Integer roleId);
+
+    /**
+     * 根据角色名查询角色信息
+     * @param userName
+     * @return
+     */
+    Role getRoleName(String userName);
+
+    /**
+     * 根据角色名-id查询角色信息
+     * @param roleName
+     * @return
+     */
+    Role getRoleNameId(String roleName, Integer id);
 }
