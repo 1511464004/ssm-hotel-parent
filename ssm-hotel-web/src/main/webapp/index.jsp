@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/global(1).css" charset="utf-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/store.css" charset="utf-8">
     <link rel="icon" href="${pageContext.request.contextPath}/statics/images/favicon.ico">
-    <title>首页-酒店管理系统</title>
+    <title>首页-欢迎来到冰冰酒店</title>
 </head>
 <body>
 <!-- 顶部start -->
 <div class="layui-header header header-store" style="background-color: #393D49;">
     <div class="layui-container">
-        <a class="logo" href="index.html">
+        <a class="logo" href="/index">
             <img src="${pageContext.request.contextPath}/statics/images/logo.png" alt="layui">
         </a>
         <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
@@ -67,8 +67,8 @@
             <div class="product-list">
                 <dl id="getIndexRoomType">
                     <dt style="background-color: #009688"><a href="lists.html" target="_blank">房间分类</a></dt>
-                                        <dd data-id="1"><a class="fly-case-active" href="JavaScript:void(0);" data-type="toRoomTypeList">单人间</a></dd>
-                                        <dd data-id="2"><a class="fly-case-active" href="JavaScript:void(0);" data-type="toRoomTypeList">双人间</a></dd>
+<%--                                        <dd data-id="1"><a class="fly-case-active" href="JavaScript:void(0);" data-type="toRoomTypeList">单人间</a></dd>--%>
+<%--                                        <dd data-id="2"><a class="fly-case-active" href="JavaScript:void(0);" data-type="toRoomTypeList">双人间</a></dd>--%>
                 </dl>
             </div>
         </div>
@@ -152,11 +152,11 @@
                         <p class="temp-title-cn"><span></span>酒店${floor.floorName}<span></span></p>
                         <div class="layui-row layui-col-space20">
                             <c:forEach var="room" items="${roomList}">
-                                <c:if test="${room.floorId ==floor.id }">
+                                <c:if test="${room.floorId == floor.id }">
                                     <div data-id="${room.id}" class="layui-col-xs6 layui-col-md3">
                                         <a class="template store-list-box fly-case-active"
                                            href="/room/detail/${room.id}.html" data-type="toRoomInfo">
-                                            <img src="http://localhost:8080/hotel/show/room-pic/main/${room.photo}"
+                                            <img src="http://localhost:8080/upload/room-pic/main/${room.photo}"
                                                  class="store-list-cover">
                                             <h2 class="layui-elip">${room.title}</h2>
                                             <p class="price"><span title="金额"> ￥${room.roomType.price} </span>
@@ -181,15 +181,7 @@
 </div>
     <!-- 底部 -->
     <div class="fly-footer">
-        <p><a href="#">酒店系统</a> 2020 © <a href="#">test.cn</a></p>
-        <p>
-            友情链接
-            <a href="http://java.goodym.cn" target="_blank">java项目源码分享网</a>
-            <a href="http://www.goodym.cn/code/list/all/1/20.html" target="_blank">源码下载平台</a>
-            <a href="http://www.goodym.cn/market/list/all/1/20.html" target="_blank">源码市场</a>
-            <a href="http://www.goodym.cn/resumetemplate/list/1/20.html" target="_blank">简历制作</a>
-            <a href="http://www.goodym.cn/forum/list/0/1/20.html" target="_blank">社区论坛</a></p>
-
+        <p><a href="#">酒店系统</a> 2020 © 冰冰
     </div>
 
 

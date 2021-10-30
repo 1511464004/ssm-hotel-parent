@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingbing.dao.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.bingbing.entity.Account">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="loginName" jdbcType="VARCHAR" property="loginName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="realName" jdbcType="VARCHAR" property="realName" />
+        <result column="idCard" jdbcType="VARCHAR" property="idCard" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="registTime" jdbcType="TIMESTAMP" property="registTime" />
+    </resultMap>
+
+    <!-- 定义用户角色关系关联 -->
+    <resultMap id="accountRoleResultMap" type="com.bingbing.entity.Account" extends="BaseResultMap">
+        <!-- 一对多 -->
+        <collection property="roleList" ofType="com.bingbing.entity.AccountRole" column="id"
+                    select="com.bingbing.dao.AccountRoleMapper.findRoleListByAccountId"/>
+    </resultMap>
+
+    <insert id="addAccount" keyProperty="id" useGeneratedKeys="true">
+        insert into t_account (loginName, password,realName, idCard, phone,email, status, registTime)
+        values (#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+          #{realName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+          #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{registTime,jdbcType=TIMESTAMP}
+          )
+    </insert>
+
+    <select id="findAccountByName" resultMap="accountRoleResultMap">
+        select * from t_account where loginName = #{loginName}
+    </select>
+
+</mapper>

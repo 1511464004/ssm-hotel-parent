@@ -306,7 +306,7 @@
                     //表单数据回显
                     form.val("dataFrm",data);
                     //图片回显
-                    $(".thumbImg").attr("src","/upload/"+data.photo);
+                    $(".thumbImg").attr("src","/upload/roomType-pic/main"+data.photo);
                 }
             });
         }

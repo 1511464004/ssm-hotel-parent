@@ -53,7 +53,8 @@ http://www.springframework.org/schema/security/spring-security.xsd">
         <!--登录记住我-->
         <security:remember-me data-source-ref="dataSource"
                               token-validity-seconds="1200"
-                              remember-me-parameter="remember-me"/>
+                              remember-me-parameter="remember-me"
+                              user-service-ref="sysUserServiceImpl"/>
     </security:http>
 
     <!-- 注入密码加密类 -->

@@ -117,14 +117,7 @@
 
 <!-- 底部 -->
 <div class="fly-footer">
-    <p><a href="#">酒店系统</a> 2020 © <a href="#">test.cn</a></p>
-    <p>
-        友情链接
-        <a href="http://java.goodym.cn" target="_blank">java项目源码分享网</a>
-        <a href="http://www.goodym.cn/code/list/all/1/20.html" target="_blank">源码下载平台</a>
-        <a href="http://www.goodym.cn/market/list/all/1/20.html" target="_blank">源码市场</a>
-        <a href="http://www.goodym.cn/resumetemplate/list/1/20.html" target="_blank">简历制作</a>
-        <a href="http://www.goodym.cn/forum/list/0/1/20.html" target="_blank">社区论坛</a> </p>
+    <p><a href="#">酒店系统</a> 2020 © 冰冰
 
 </div>
 
@@ -162,7 +155,7 @@
             //获取输入的用户名
             var loginName = $(this).val().trim();
             //判断是否为空
-            if(loginName.length>0){
+            if(loginName.length > 0){
                 $.get("/account/checkName",{"loginName":loginName},function(result){
                     if(result.exist){
                         //layer.msg(result.message);
