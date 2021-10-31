@@ -242,6 +242,8 @@
                             return "<font color='00bfff'>可预订</font>";
                         } else if (d.status == 2) {
                             return "<font color='ff4500'>已预订</font>";
+                        } else if (d.status == 3) {
+                            return "<font color='red'>入住中</font>";
                         }
 
                     }},

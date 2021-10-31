@@ -197,8 +197,8 @@
                 {field: 'liveNum', width: 100, title: '可入住人数', align: 'center'},
                 {field: 'bedNum', width: 100, title: '床位数', align: 'center'},
                 {field: 'roomNum', width: 100, title: '房间数', align: 'center'},
-                {field: 'reservedNum', width: 100, title: '可用房间数', align: 'center'},
-                {field: 'avilableNum', width: 100, title: '已预订数', align: 'center'},
+                {field: 'avilableNum', width: 100, title: '可用房间数', align: 'center'},
+                {field: 'reservedNum', width: 100, title: '已预订数', align: 'center'},
                 {field: 'livedNum', width: 100, title: '已入住数', align: 'center'},
                 {field: 'status', width: 100, title: '状态', align: 'center',templet:function(d){
                         return d.status == 1 ?"<font color='#00bfff'>可预订</font>" : "<font color='#ff4500'>房间已满</font>";
@@ -306,7 +306,7 @@
                     //表单数据回显
                     form.val("dataFrm",data);
                     //图片回显
-                    $(".thumbImg").attr("src","/upload/roomType-pic/main"+data.photo);
+                    $(".thumbImg").attr("src","/upload/roomType-pic/main/"+data.photo);
                 }
             });
         }

@@ -30,10 +30,13 @@
                 <a class="fly-case-active" data-type="toTopNav" href="/room/list.html">房间</a>
             </li>
             <li data-id="login" class="layui-nav-item layui-hide-xs ">
-                <a class="fly-case-active" data-type="toTopNav" href="/login.jsp">登入</a>
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id != null}">style="visibility:hidden"</c:if> href="/login.jsp">登入</a>
             </li>
             <li data-id="register" class="layui-nav-item layui-hide-xs ">
-                <a class="fly-case-active" data-type="toTopNav" href="/register.jsp">注册</a>
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id != null}">style="visibility:hidden"</c:if> href="/register.jsp">注册</a>
+            </li>
+            <li data-id="register" class="layui-nav-item layui-hide-xs ">
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id == null}">style="visibility:hidden"</c:if> href="/logout">退出登录</a>
             </li>
             <span class="layui-nav-bar" style="left: 560px; top: 55px; width: 0px; opacity: 0;"></span>
         </ul>

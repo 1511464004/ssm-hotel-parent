@@ -18,6 +18,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
     <security:http auto-config="true" use-expressions="true">
         <!-- 让登录页面可以匿名访问（无需进行拦截操作） -->
         <security:intercept-url pattern="/login.jsp" access="permitAll()"/>
+        <security:intercept-url pattern="/logout" access="permitAll()"/>
         <!-- 定义过滤规则 -->
         <!--  pattern:表示对哪些url进行权限控制-->
         <!--  access:表示在请求对应的URLl时需要什么角色或权限-->

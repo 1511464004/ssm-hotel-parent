@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingbing.dao.ChartsMapper">
+
+
+    <select id="getTotalPriceByYear" resultType="java.util.Map">
+        select year(createdate) as year ,sum(payPrice) as money from t_checkin group by year(createdate)
+    </select>
+
+    <select id="getMonthTotalPriceByYear" resultType="java.lang.Double">
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'01')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'02')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'03')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'04')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'05')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'06')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'07')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'08')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'09')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'10')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'11')
+        union all
+        select sum(payprice) from t_checkin where date_format(createdate,'%Y%m') = concat(#{year},'12')
+    </select>
+
+</mapper>

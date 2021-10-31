@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/global(1).css" charset="utf-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/store.css" charset="utf-8">
     <link rel="icon" href="${pageContext.request.contextPath}/statics/images/favicon.ico">
-    <title>酒店管理系统</title>
+    <title>冰冰酒店房间</title>
 <body>
 <!-- 顶部start -->
 <div class="layui-header header header-store" style="background-color: #393D49;">
@@ -29,10 +29,13 @@
                 <a class="fly-case-active" data-type="toTopNav"  href="/room/list.html">房间</a>
             </li>
             <li data-id="login" class="layui-nav-item layui-hide-xs">
-                <a class="fly-case-active" data-type="toTopNav" href="/login.jsp">登入</a>
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id != null}">style="visibility:hidden"</c:if> href="/login.jsp">登入</a>
             </li>
             <li data-id="register" class="layui-nav-item layui-hide-xs">
-                <a class="fly-case-active" data-type="toTopNav" href="/register.jsp">注册</a>
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id != null}">style="visibility:hidden"</c:if> href="/register.jsp">注册</a>
+            </li>
+            <li data-id="register" class="layui-nav-item layui-hide-xs ">
+                <a class="fly-case-active" data-type="toTopNav" <c:if test="${account.id == null}">style="visibility:hidden"</c:if> href="/logout">退出登录</a>
             </li>
             <span class="layui-nav-bar" style="left: 560px; top: 55px; width: 0px; opacity: 0;"></span>
         </ul>
@@ -72,7 +75,7 @@
                     <%-- 隐藏域，保存当前选中的房型ID --%>
                     <input type="hidden" id="typeId" value="${typeId}">
                     <ul id="getAllRoomType">
-                        <li <c:if test="${typeId==null}">class="active" </c:if> data-id="0">
+                        <li <c:if test="${typeId == null}">class="active" </c:if> data-id="0">
                             <a class="fly-case-active" href="/room/list.html" data-type="toRoomTypeListByLists">全部</a>
                         </li>
                         <!--
@@ -130,7 +133,7 @@
                 <c:forEach var="room" items="${roomList}">
                     <div data-id="${room.id}" class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
                     <a class="template store-list-box fly-case-active" href="/room/detail/${room.id}.html" data-type="toRoomInfo">
-                        <img src="/hotel/show/room-pic/main/${room.photo}" class="store-list-cover">
+                        <img src="http://localhost:8080/upload/room-pic/main/${room.photo}" class="store-list-cover">
                         <h2 class="layui-elip">${room.title}</h2>
                         <div> <label class="layui-badge-rim store-list-pay"> ￥${room.roomType.price} </label>
                             <div class="store-list-colorbar">
@@ -155,14 +158,8 @@
 
 <!-- 底部 -->
 <div class="fly-footer">
-    <p><a href="#">酒店系统</a> 2020 © <a href="#">test.cn</a></p>
-    <p>
-        友情链接
-        <a href="http://java.goodym.cn" target="_blank">java项目源码分享网</a>
-        <a href="http://www.goodym.cn/code/list/all/1/20.html" target="_blank">源码下载平台</a>
-        <a href="http://www.goodym.cn/market/list/all/1/20.html" target="_blank">源码市场</a>
-        <a href="http://www.goodym.cn/resumetemplate/list/1/20.html" target="_blank">简历制作</a>
-        <a href="http://www.goodym.cn/forum/list/0/1/20.html" target="_blank">社区论坛</a> </p>
+    <p><a href="#">酒店系统</a> 2020 © 冰冰
+
 
 </div>
 

@@ -1,6 +1,8 @@
 package com.bingbing.controller;
 
+import com.bingbing.entity.Account;
 import com.bingbing.entity.Room;
+import com.bingbing.service.AccountService;
 import com.bingbing.service.RoomService;
 import com.bingbing.vo.RoomVo;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -17,6 +20,9 @@ public class RoomController {
 
     @Resource
     private RoomService roomService;
+
+    @Resource
+    private AccountService accountService;
 
     /**
      * 查询房间详情
@@ -37,7 +43,12 @@ public class RoomController {
      * @return
      */
     @RequestMapping("/list.html")
-    public String list(Model model){
+    public String list(Model model, Principal principal){
+        //查询当前登录用户
+        if (principal != null) {
+            Account account = accountService.getAccountByName(principal.getName());
+            model.addAttribute("account",account);
+        }
         RoomVo roomVo = new RoomVo();
         roomVo.setStatus(1);//可预订
         //调用查询房间列表的方法

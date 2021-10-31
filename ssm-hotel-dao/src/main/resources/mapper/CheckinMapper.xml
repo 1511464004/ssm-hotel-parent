@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingbing.dao.CheckinMapper">
+
+    <resultMap id="BaseResultMap" type="com.bingbing.entity.Checkin">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <id column="payPrice" jdbcType="DECIMAL" property="payPrice" />
+        <result column="roomTypeId" jdbcType="INTEGER" property="roomTypeId" />
+        <result column="roomId" jdbcType="BIGINT" property="roomId" />
+        <result column="customerName" jdbcType="VARCHAR" property="customerName" />
+        <result column="idCard" jdbcType="VARCHAR" property="idCard" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="arriveDate" jdbcType="DATE" property="arriveDate" />
+        <result column="leaveDate" jdbcType="DATE" property="leaveDate" />
+        <result column="ordersId" jdbcType="BIGINT" property="ordersId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="createdBy" jdbcType="INTEGER" property="createdBy" />
+        <result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+        <result column="modifyBy" jdbcType="INTEGER" property="modifyBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <resultMap id="checkinRoomResultMap" type="com.bingbing.entity.Checkin" extends="BaseResultMap">
+        <!-- 房型 -->
+        <association property="roomType" javaType="com.bingbing.entity.RoomType">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+            <result column="photo" jdbcType="VARCHAR" property="photo" />
+            <result column="price" jdbcType="DECIMAL" property="price" />
+        </association>
+        <!-- 房间 -->
+        <association property="room" javaType="com.bingbing.entity.Room">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="title" jdbcType="VARCHAR" property="title" />
+            <result column="photo" jdbcType="VARCHAR" property="photo" />
+            <result column="roomNum" jdbcType="VARCHAR" property="roomNum" />
+        </association>
+    </resultMap>
+
+    <insert id="insert">
+        insert into t_checkin (payPrice, roomTypeId,
+          roomId, customerName, idCard,
+          phone, arriveDate, leaveDate,
+          ordersId, status, createDate,
+          createdBy,remark)
+        values (#{payPrice,jdbcType=DECIMAL}, #{roomTypeId,jdbcType=INTEGER},
+          #{roomId,jdbcType=BIGINT}, #{customerName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
+          #{phone,jdbcType=VARCHAR}, #{arriveDate,jdbcType=DATE}, #{leaveDate,jdbcType=DATE},
+          #{ordersId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+          #{createdBy,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update">
+        update t_checkin
+        <set>
+            <if test="roomTypeId != null">
+                roomTypeId = #{roomTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="roomId != null">
+                roomId = #{roomId,jdbcType=BIGINT},
+            </if>
+            <if test="customerName != null">
+                customerName = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="idCard != null">
+                idCard = #{idCard,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="arriveDate != null">
+                arriveDate = #{arriveDate,jdbcType=DATE},
+            </if>
+            <if test="leaveDate != null">
+                leaveDate = #{leaveDate,jdbcType=DATE},
+            </if>
+            <if test="ordersId != null">
+                ordersId = #{ordersId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdBy != null">
+                createdBy = #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="modifyDate != null">
+                modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyBy != null">
+                modifyBy = #{modifyBy,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="findCheckinList" resultMap="checkinRoomResultMap">
+        select t1.*,t2.`typeName`,t3.`roomNum` from t_checkin t1
+        inner join t_room_type t2 on t2.id = t1.`roomTypeId`
+        inner join t_room t3 on t3.id = t1.`roomId`
+        <where>
+            <if test="customerName!=null and customerName!=''">
+                and t1.customerName like concat('%',#{customerName},'%')
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and t1.idCard like concat('%',#{idCard},'%')
+            </if>
+            <if test="phone!=null and phone!=''">
+                and t1.phone like concat('%',#{phone},'%')
+            </if>
+            <if test="roomTypeId!=null">
+                and t1.roomTypeId = #{roomTypeId}
+            </if>
+            <if test="status!=null">
+                and t1.status = #{status}
+            </if>
+            <if test="startDate!=null">
+                <![CDATA[ and t1.reserveDate >= #{startDate} ]]>
+            </if>
+            <if test="endDate!=null">
+                <![CDATA[ and t1.reserveDate <= #{endDate} ]]>
+            </if>
+        </where>
+    </select>
+
+</mapper>

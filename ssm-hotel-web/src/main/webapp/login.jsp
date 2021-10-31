@@ -1,4 +1,5 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en" class="fly-html-layui fly-html-store">
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/global(1).css" charset="utf-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/store.css" charset="utf-8">
     <link rel="icon" href="${pageContext.request.contextPath}/statics/images/favicon.ico">
-    <title>酒店管理系统</title>
+    <title>冰冰酒店登录</title>
 <body>
 <!-- 顶部start -->
 <div class="layui-header header header-store" style="background-color: #393D49;">

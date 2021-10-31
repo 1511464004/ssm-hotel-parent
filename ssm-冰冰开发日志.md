@@ -489,3 +489,223 @@ Table 'db_ssm_hotel.sys_role_permission' doesn't exist
    idArr.push(params[i].nodeId);//nodeId是选中的节点值
 ```
 
+#### 43.上传图片报异常
+
+![image-20211028203142191](ssm-冰冰开发日志.assets/image-20211028203142191-16354243027847.png)
+
+在spring-mvc.xml中配置文件上传
+
+```xml
+<!-- 配置文件解析器对象，要求id名称必须是multipartResolver -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传限制大小为10M -->
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+```
+
+#### 44.文件图片没有回显
+
+![image-20211028203432880](ssm-冰冰开发日志.assets/image-20211028203432880-16354244742288.png)
+
+请求与下载的实际路径不符
+
+![image-20211028204319178](ssm-冰冰开发日志.assets/image-20211028204319178-16354250000779.png)
+
+修改上传路径
+
+```java
+//获取文件上传地址
+            String path = "D:/ADAI/boottest/ssm-hotel-parent/ssm-hotel-web/src/main/webapp/upload/";
+```
+
+#### 45.创建sqlSession失败
+
+是因为在mapper中由于手懒使用了重载（不能使用）！
+
+![image-20211029090216088](ssm-冰冰开发日志.assets/image-20211029090216088-16354693372161.png)
+
+#### 46.查询失败500，加绑定
+
+```java
+Parameter 'roomTypeName' not found. Available parameters 
+```
+
+```java
+@Select("select * from t_room_type where typeName = #{roomTypeName} and id != #{id}")
+    RoomType getRoomTypeNameId(@Param("roomTypeName") String roomTypeName,@Param("id") Integer id);
+```
+
+#### 47.房间数据接口请求异常error
+
+![image-20211029133223494](ssm-冰冰开发日志.assets/image-20211029133223494-16354855442632.png)
+
+Controller层中的方法加入注解@ResponseBody
+
+#### 48.查询异常
+
+不同表对应的同一字段类型不同
+
+```java
+private String roomNum;
+private Integer roomNum;
+```
+
+在xml里查询出来取别名映射列
+
+```xml
+t2.roomNum as roomNumber
+<result column="roomNumber" property="roomNum" />
+```
+
+#### 49.无法发起对security的管理
+
+```xml
+xmlns:context="http://www.springframework.org/schema/context"
+```
+
+#### 50.启动前后台，后台上传图片出错
+
+![image-20211028203142191](ssm-冰冰开发日志.assets/image-20211028203142191-16354243027847.png)
+
+浏览器默认是客户端8090不是服务端8080，刷新页面
+
+#### 51.点击详情404
+
+![image-20211029221220934](ssm-冰冰开发日志.assets/image-20211029221220934-16355167419653.png)
+
+继续clear 俩个maven项目
+
+#### 52.房间类型列表500
+
+![image-20211030152312120](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211030152312120.png)
+
+电脑重置后vm虚拟机里的IP被改变了
+
+改变工具类里的IP地址，继续clear
+
+```properties
+#IP地址
+host=192.168.171.128
+#端口号
+port=6379
+```
+
+![image-20211030154431084](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211030154431084-16355798721391.png)
+
+#### 53.通过隐藏域来渲染标识的选中房型颜色
+
+```html
+<%-- 隐藏域，保存当前选中的房型ID --%>
+<input type="hidden" id="typeId" value="${typeId}">
+```
+
+```js
+//判断当前房型ID
+if(result[i].id == $("#typeId").val()){
+    html +="<li data-id='"+result[i].id+"' class='active'>";
+}
+```
+
+#### 54.对于已经预订的房间禁止预订
+
+```html
+<c:if test="${room.status!=1}">
+    <a href="javascript:;"  data-type="memberReserveHotel" class="fly-memberReserveHotel"
+       style="background-color: #d3d3d3;cursor: not-allowed;">
+        <i class="layui-icon layui-icon-dollar"></i>立即预定
+    </a>
+</c:if>
+```
+
+![image-20211030174233717](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211030174233717-16355869546382.png)
+
+#### 55.预订房间要添加隐藏域
+
+```html
+<%-- 隐藏域，保存房间ID --%>
+     <input type="hidden" name="roomId" value="${room.id}">
+<%-- 隐藏域，保存房型ID --%>
+     <input type="hidden" name="roomTypeId" value="${room.roomTypeId}">
+```
+
+修改的时候会出现空指针异常
+
+```java
+//2.修改房间信息(状态为已预订2)
+            Room room =roomMapper.getRoomById(orders.getRoomId());//查询
+//3.修改房型信息(可用房间数-1，已预订房间数+1)
+            RoomType roomType = roomTypeMapper.findById(orders.getRoomTypeId());
+```
+
+#### 56.订单中时间要在实体类中强制转换为日期
+
+```java
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date arriveDate;
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date leaveDate;
+```
+
+#### 57.入住日期和离店日期被spring-mvc解析为时分秒
+
+![image-20211030184719946](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211030184719946-16355908415133.png)
+
+```java
+@JsonFormat(pattern = "yyyy-MM-dd")
+@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date arriveDate;
+@JsonFormat(pattern = "yyyy-MM-dd")
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date leaveDate;
+```
+
+#### 58.房间状态不一致
+
+![image-20211031131215974](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211031131215974-16356571372301.png)
+
+![image-20211031131229809](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211031131229809-16356571506552.png)
+
+增加房间页面的状态判断
+
+```java
+//修改预订订单信息(从已确认的状态2改成入住中3)
+            Orders orders = new Orders();
+            orders.setId(checkin.getOrdersId());
+            orders.setStatus(3);//入住中
+            //调用修改订单信息的方法
+            ordersMapper.update(orders);
+//修改房间状态（由已预订2改成入住中3）
+            Room room = new Room();
+            room.setStatus(3);
+            room.setId(orders.getRoomId());
+            //调用修改的方法
+            roomMapper.updateRoom(room);
+```
+
+```js
+if (d.status == 1) {
+                            return "<font color='00bfff'>可预订</font>";
+                        } else if (d.status == 2) {
+                            return "<font color='ff4500'>已预订</font>";
+                        } else if (d.status == 3) {
+                            return "<font color='red'>入住中</font>";
+                        }
+```
+
+由于orders是new出来的，只是修改了status的属性，它并没有roomID，导致room表的状态没有更新
+
+```java
+orders = ordersMapper.getOrdersById(orders.getId());
+```
+
+重新查询一遍
+
+#### 59.年营业额404
+
+![image-20211031150504776](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211031150504776-16356639055253.png)
+
+数据库中插入的接口地址写错
+
+![image-20211031150531035](D:\DOWNLOAD\Typora\MD\ssm-冰冰开发日志.assets\image-20211031150531035-16356639318044.png)
+

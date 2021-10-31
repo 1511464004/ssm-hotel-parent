@@ -97,7 +97,7 @@ public class RoomTypeController {
         Map<String,Object> map = new HashMap<>();
         if (roomType.getTypeName() == null || roomType.getTypeName() == "") {
             map.put(SystemConstants.SUCCESS,false);
-            map.put(SystemConstants.MESSAGE,"添加失败，楼层名称不能为空！");
+            map.put(SystemConstants.MESSAGE,"添加失败，房型名称不能为空！");
             return JSON.toJSONString(map);
         }
         RoomType roomType1 = roomTypeService.getRoomTypeName(roomType.getTypeName());

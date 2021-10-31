@@ -37,7 +37,7 @@ public class OrdersServiceImpl implements OrdersService {
         orders.setStatus(1);//订单状态为待确认
         //1.添加订单信息
         int count = ordersMapper.addOrders(orders);
-        if(count>0){
+        if(count > 0) {
             //2.修改房间信息(状态为已预订2)
             Room room =roomMapper.getRoomById(orders.getRoomId());//查询
             room.setStatus(2);//修改状态为已预订
